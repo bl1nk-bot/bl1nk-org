@@ -16,4 +16,8 @@ RUN bun install
 # Build
 RUN bun run build
 
+RUN addgroup -S app && adduser -S app -G app
+RUN chown -R app:app /app
+USER app
+
 CMD ["bun", "run", "start"]
