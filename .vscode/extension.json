@@ -1,0 +1,22 @@
+{
+  "recommendations": [
+    // ภาษา TypeScript/JavaScript
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "stylelint.vscode-stylelint",
+    "unifiedjs.vscode-mdx",
+    "vitest.explorer",
+
+    // Rust
+    "rust-lang.rust-analyzer",
+
+    // Python
+    "charliermarsh.ruff",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+
+    // TOML
+    "tamasfe.even-better-toml"
+  ]
+}
