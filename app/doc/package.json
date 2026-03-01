@@ -6,8 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "echo 'dev script not implemented'",
-    "build": "echo 'build script not implemented'"
+    "dev": "astro dev",
+    "build": "astro build"
   },
   "dependencies": {
     "astro": "4.0.0"
