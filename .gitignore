@@ -33,3 +33,4 @@ src-tauri/Cargo.lock
 .vscode/
 .idea/
 .blackboxcli/
+*:Zone.Identifier
