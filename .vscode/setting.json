@@ -1,0 +1,203 @@
+{
+  // ----------------------------------------------------------------------
+  // การตั้งค่าทั่วไป (General)
+  // ----------------------------------------------------------------------
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/target": true,          // Rust build output
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/target": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    // ไม่ต้องค้นหาภาษาอื่นที่ไม่ใช่หลัก (ยกเว้น th, en, zh)
+    "packages/locales/ar/**": true,
+    "packages/locales/bg-BG/**": true,
+    "packages/locales/de-DE/**": true,
+    "packages/locales/es-ES/**": true,
+    "packages/locales/fa-IR/**": true,
+    "packages/locales/fr-FR/**": true,
+    "packages/locales/it-IT/**": true,
+    "packages/locales/ja-JP/**": true,
+    "packages/locales/ko-KR/**": true,
+    "packages/locales/nl-NL/**": true,
+    "packages/locales/pl-PL/**": true,
+    "packages/locales/pt-BR/**": true,
+    "packages/locales/ru-RU/**": true,
+    "packages/locales/tr-TR/**": true,
+    "packages/locales/vi-VN/**": true,
+    "packages/locales/zh-TW/**": true
+  },
+
+  // ----------------------------------------------------------------------
+  // TypeScript / JavaScript (Web, Packages)
+  // ----------------------------------------------------------------------
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "eslint.packageManager": "bun",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "mdx"
+  ],
+  "eslint.rules.customizations": [
+    // ปิดการแจ้งเตือนกฎที่ fix อัตโนมัติ
+    // { "rule": "import/order", "severity": "off" },
+    // { "rule": "prettier/prettier", "severity": "off" }
+  ],
+
+  // ----------------------------------------------------------------------
+  // MDX (Documentation)
+  // ----------------------------------------------------------------------
+  "mdx.server.enable": false,
+
+  // ----------------------------------------------------------------------
+  // Tailwind CSS
+  // ----------------------------------------------------------------------
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+
+  // ----------------------------------------------------------------------
+  // Stylelint
+  // ----------------------------------------------------------------------
+  "stylelint.validate": ["css", "postcss", "typescriptreact"],
+
+  // ----------------------------------------------------------------------
+  // Rust (Desktop Tauri)
+  // ----------------------------------------------------------------------
+  "rust-analyzer.checkOnSave": true,
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.inlayHints.chainingHints": true,
+  "rust-analyzer.inlayHints.parameterHints": true,
+  "rust-analyzer.inlayHints.typeHints": true,
+  "rust-analyzer.rustfmt.extraArgs": ["+nightly"],
+  "rust-analyzer.cargo.features": "all",
+  "rust-analyzer.linkedProjects": [
+    "app/desktop/src-tauri/Cargo.toml"  // ชี้ไปที่ Cargo.toml หลัก
+  ],
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+
+  // ----------------------------------------------------------------------
+  // Python (Modal, Python Interpreter)
+  // ----------------------------------------------------------------------
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "python.linting.ruffPath": "ruff",
+  "python.linting.pylintEnabled": false,
+  "python.formatting.provider": "ruff",
+  "python.formatting.ruffArgs": [],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/packages/packages/python-interpreter/src"
+  ],
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+
+  // ----------------------------------------------------------------------
+  // TOML (Cargo.toml)
+  // ----------------------------------------------------------------------
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+
+  // ----------------------------------------------------------------------
+  // กำหนดชื่อแท็บตามโครงสร้างโปรเจกต์ (Custom Labels)
+  // ----------------------------------------------------------------------
+  "workbench.editor.customLabels.patterns": {
+    // Web (Next.js)
+    "**/app/web/src/app/**/page.tsx": "${dirname} • page",
+    "**/app/web/src/app/**/layout.tsx": "${dirname} • layout",
+    "**/app/web/src/app/**/loading.tsx": "${dirname} • loading",
+    "**/app/web/src/app/**/error.tsx": "${dirname} • error",
+    "**/app/web/src/app/api/**/route.ts": "${dirname(1)}/${dirname} • route",
+    "**/app/web/src/components/**/index.tsx": "${dirname} • component",
+    "**/app/web/src/hooks/**/index.ts": "${filename} • hook",
+    "**/app/web/src/store/**/index.ts": "${dirname} • store",
+
+    // Desktop (Tauri) – Rust
+    "**/app/desktop/src-tauri/src/**/*.rs": "${filename}.rs • rust",
+    "**/app/desktop/src-tauri/src/commands/**/*.rs": "${dirname} • cmd",
+    "**/app/desktop/src-tauri/src/services/**/*.rs": "${dirname} • service",
+    "**/app/desktop/src/**/index.tsx": "${dirname} • desktop component",
+
+    // Obsidian Plugin
+    "**/app/obsidian/src/**/index.ts": "${dirname} • obsidian",
+
+    // Documentation (Astro)
+    "**/app/doc/src/**/*.mdx": "${filename} • doc",
+    "**/app/doc/src/**/*.astro": "${filename} • astro",
+
+    // Packages – TypeScript
+    "**/packages/packages/**/src/index.ts": "${dirname(2)}/${dirname} • pkg",
+    "**/packages/database/src/schemas/**/*.ts": "${filename} • schema",
+    "**/packages/database/src/models/**/*.ts": "${filename} • model",
+    "**/packages/database/src/repositories/**/index.ts": "${dirname} • repo",
+    "**/packages/model-runtime/src/providers/**/index.ts": "${dirname} • provider",
+    "**/packages/model-bank/src/aiModels/**/*.ts": "${filename} • model",
+    "**/packages/builtin-tool-*/src/**/index.ts": "${dirname} • tool",
+    "**/packages/agent-runtime/src/**/index.ts": "${filename} • runtime",
+    "**/packages/cloud-storage/src/**/index.ts": "${dirname} • storage",
+    "**/packages/telemetry/src/**/index.ts": "${filename} • telemetry",
+    "**/packages/utils/src/**/index.ts": "${filename} • util",
+    "**/packages/types/src/**/index.ts": "${filename} • types",
+    "**/packages/const/src/**/index.ts": "${filename} • const",
+
+    // Python
+    "**/packages/packages/python-interpreter/src/**/*.py": "${filename} • py",
+    "**/packages/packages/python-interpreter/**/*.py": "${filename} • py",
+
+    // Locales
+    "**/packages/locales/en-US/**/*.json": "en • locale",
+    "**/packages/locales/zh-CN/**/*.json": "zh • locale",
+    "**/packages/locales/th-TH/**/*.json": "th • locale"
+  },
+
+  // ----------------------------------------------------------------------
+  // Vitest
+  // ----------------------------------------------------------------------
+  "vitest.maximumConfigs": 20,
+
+  // ----------------------------------------------------------------------
+  // Package Manager
+  // ----------------------------------------------------------------------
+  "npm.packageManager": "bun"
+}
