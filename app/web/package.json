@@ -6,8 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "echo 'dev script not implemented'",
-    "build": "echo 'build script not implemented'"
+    "dev": "next dev",
+    "build": "next build"
   },
   "dependencies": {
     "next": "15.0.0", "react": "19.0.0", "react-dom": "19.0.0", "zustand": "5.0.0", "zod": "3.22.0", "tailwind-merge": "2.0.0", "clsx": "2.0.0"
