@@ -156,12 +156,24 @@ EOF
 # app/web (Next.js + Vercel Edge)
 # ----------------------------------------
 echo "📁 สร้าง app/web ..."
-mkdir -p app/web/src/app/\(auth\) app/web/src/app/\(dashboard\) app/web/src/app/api/{agent,tools,storage}
-mkdir -p app/web/src/components/{ui,features,layouts}
-mkdir -p app/web/src/hooks app/web/src/lib app/web/src/store
-touch app/web/src/app/layout.tsx
-touch app/web/src/lib/{api.ts,utils.ts,constants.ts}
-touch app/web/src/store/{auth.ts,agent.ts,ui.ts}
+mkdir -p app/web/app/\(auth\) app/web/app/\(dashboard\) app/web/app/api/{agent,tools,storage}
+mkdir -p app/web/components/{ui,features,layouts}
+mkdir -p app/web/hooks app/web/lib app/web/store
+cat > app/web/app/layout.tsx <<EOF
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+EOF
+touch app/web/lib/{api.ts,utils.ts,constants.ts}
+touch app/web/store/{auth.ts,agent.ts,ui.ts}
 touch app/web/middleware.ts app/web/vercel.json app/web/next.config.ts
 
 # package.json สำหรับ web
@@ -177,7 +189,57 @@ mkdir -p app/desktop/src/{components,hooks,store}
 touch app/desktop/src/{App.tsx,main.tsx}
 mkdir -p app/desktop/src-tauri/src/{commands,services,utils}
 touch app/desktop/src-tauri/src/main.rs
-touch app/desktop/src-tauri/{Cargo.toml,tauri.conf.json}
+cat > app/desktop/src-tauri/Cargo.toml <<EOF
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.0.0-rc", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0-rc", features = [] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+EOF
+
+cat > app/desktop/src-tauri/tauri.conf.json <<EOF
+{
+  "productName": "bl1nk-org",
+  "version": "0.1.0",
+  "identifier": "site.bl1nk.app",
+  "build": {
+    "beforeDevCommand": "bun run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "bl1nk-org",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
+EOF
 touch app/desktop/{vite.config.ts,tsconfig.json}
 
 create_package_json "app/desktop" "@bl1nk/desktop" \
@@ -215,7 +277,7 @@ EOF
 # ----------------------------------------
 echo "📁 สร้าง app/android (placeholder) ..."
 mkdir -p app/android/src app/android/android app/android/ios
-touch app/android/package.json
+echo "{}" > app/android/package.json
 
 # ----------------------------------------
 # app/doc (Documentation site with Astro)
@@ -264,7 +326,7 @@ touch packages/telemetry/src/{logger.ts,analytics.ts,types.ts,index.ts}
 
 # package.json สำหรับ telemetry
 create_package_json "packages/telemetry" "@bl1nk/telemetry" \
-  '"opentelemetry/api": "1.8.0"' \
+  '"@opentelemetry/api": "1.8.0"' \
   '"@types/node": "20.0.0", "typescript": "5.3.0"'
 
 # ตัวอย่าง package.json สำหรับบาง package ที่ควรมี dependencies
@@ -281,11 +343,8 @@ create_package_json "packages/packages/model-runtime" "@bl1nk/model-runtime" \
   '"typescript": "5.3.0"'
 
 create_package_json "packages/packages/cloud-storage" "@bl1nk/cloud-storage" \
-  '"boto3": "^1.34.0" (แต่ใน JS ใช้ aws-sdk หรือ lib Storage)' \
-  '"@aws-sdk/client-s3": "3.500.0", "typescript": "5.3.0"'
-
-# ปรับ boto3 เป็น JS lib เพราะ boto3 เป็น Python – ใช้ aws-sdk แทน
-sed -i '' 's/"boto3": "[^"]*"/"@aws-sdk\/client-s3": "3.500.0"/g' packages/packages/cloud-storage/package.json
+  '"@aws-sdk/client-s3": "3.500.0"' \
+  '"typescript": "5.3.0"'
 
 # ----------------------------------------
 # ไฟล์ Docker / Environment
@@ -317,7 +376,7 @@ WORKDIR /app
 
 # ติดตั้ง Bun
 RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/root/.bun/bin:$PATH"
+ENV PATH="/root/.bun/bin:\$PATH"
 
 # คัดลอกไฟล์โปรเจกต์
 COPY package.json bun.lockb ./
