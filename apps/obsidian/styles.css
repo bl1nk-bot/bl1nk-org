@@ -1,0 +1,15 @@
+.osa-chat-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.osa-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.osa-chat-input {
+  padding: 10px;
+  border-top: 1px solid var(--divider-color);
+}

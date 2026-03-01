@@ -1,3 +1,7 @@
 [install.lockfile]
 
 save = false
+
+[install]
+# ปิด peer dependency warning
+peer_dependency_warnings = false

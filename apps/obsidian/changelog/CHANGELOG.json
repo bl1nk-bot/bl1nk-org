@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1740355200000,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "ย้ายโครงสร้างเป็น monorepo packages/",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200001,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "ใช้ Modal เป็น Python sandbox — per-call isolate",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200002,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "ใช้ Vercel เป็น Node.js sandbox + Dashboard UI",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200003,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "Cloudflare = Gateway + R2 เท่านั้น ไม่รันโค้ด agent",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200004,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "MCP เชื่อมตรง ไม่ผ่าน Gateway — stdio/sse/http",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200005,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "decision",
+    "summary": "ใช้ Drizzle + PostgreSQL สำหรับ database",
+    "emoji": "🧭"
+  },
+  {
+    "id": 1740355200006,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "added",
+    "summary": "สร้าง scripts/ สำหรับนำทางโปรเจ็ค",
+    "emoji": "✅"
+  },
+  {
+    "id": 1740355200007,
+    "date": "2026-02-24",
+    "time": "00:00",
+    "type": "added",
+    "summary": "สร้าง templates/ สำหรับไฟล์ต้นแบบ",
+    "emoji": "✅"
+  }
+]

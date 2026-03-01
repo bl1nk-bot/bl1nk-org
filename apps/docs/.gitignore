@@ -1,25 +1,41 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
 # ========================
 # Global
-.DS_Store
 Thumbs.db
 *.log
 *.tmp
 *.swp
 # Node / Next.js
-node_modules/
 .next/
 out/
-dist/
 build/
 coverage/
 .vercel/
-.env
 .env.local
 .env.*.local
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 # Rust
 target/
 Cargo.lock
@@ -31,5 +47,3 @@ src-tauri/.cargo/
 src-tauri/Cargo.lock
 # IDE
 .vscode/
-.idea/
-.blackboxcli/

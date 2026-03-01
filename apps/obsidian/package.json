@@ -1,0 +1,60 @@
+{
+  "name": "obsidian-acp-bl1nk",
+  "version": "0.2.0",
+  "description": "Obsidian Smart Assistant - AI agent host, context, and RAG",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.css\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"*.css\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "ai",
+    "agent",
+    "mcp",
+    "acp"
+  ],
+  "author": "billlzzz15-gif",
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "@types/eventemitter3": "^1.2.0",
+    "@types/node": "^20.19.35",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/semver": "^7.7.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "@typescript-eslint/utils": "^8.56.1",
+    "builtin-modules": "^5.0.0",
+    "esbuild": "0.17.3",
+    "eslint": "^9.39.3",
+    "eslint-plugin-obsidianmd": "^0.1.9",
+    "obsidian": "latest",
+    "prettier": "^3.8.1",
+    "tslib": "2.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@agentclientprotocol/sdk": "^0.13.1",
+    "@codemirror/state": "6.5.0",
+    "@codemirror/view": "^6.39.15",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "diff": "^8.0.3",
+    "eventemitter3": "^5.0.4",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "semver": "^7.7.4",
+    "uuid": "^9.0.1"
+  }
+}

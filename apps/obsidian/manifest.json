@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-acp-bl1nk",
+  "name": "Obsidian ACP Agent",
+  "version": "0.1.0",
+  "minAppVersion": "0.15.0",
+  "description": "AI agent host, context, and RAG for Obsidian",
+  "author": "billlzzz15-gif",
+  "authorUrl": "https://bl1nk.site",
+  "isDesktopOnly": true
+}

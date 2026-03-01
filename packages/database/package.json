@@ -1,5 +1,5 @@
 {
-  "name": "@bl1nk/telemetry",
+  "name": "@bl1nk/database",
   "version": "0.1.0",
   "private": true,
   "author": "bl1nk-org <org@bl1nk.site>",
@@ -10,9 +10,9 @@
     "build": "echo 'build script not implemented'"
   },
   "dependencies": {
-    "@opentelemetry/api": "1.8.0"
+    "drizzle-orm": "0.30.0", "postgres": "3.4.0"
   },
   "devDependencies": {
-    "@types/node": "20.0.0", "typescript": "^5.5.0"
+    "drizzle-kit": "0.21.0", "@types/node": "20.0.0", "typescript": "^5.5.0"
   }
 }
