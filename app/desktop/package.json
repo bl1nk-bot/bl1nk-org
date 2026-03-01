@@ -6,8 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "echo 'dev script not implemented'",
-    "build": "echo 'build script not implemented'"
+    "dev": "tauri dev",
+    "build": "tauri build"
   },
   "dependencies": {
     "@tauri-apps/api": "2.0.0", "react": "19.0.0", "react-dom": "19.0.0", "zustand": "5.0.0"
