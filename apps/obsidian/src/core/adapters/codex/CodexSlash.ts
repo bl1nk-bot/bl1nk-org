@@ -7,21 +7,21 @@
 /** นิยาม custom prompt สำหรับ slash command */
 export interface CodexCustomPrompt {
   /** ชื่อ command เช่น "review-pr" */
-  name: string;
+  name: string
   /** template ที่มี placeholder เช่น "$PR_NUMBER" */
-  content: string;
+  content: string
   /** คำอธิบายสั้นๆ */
-  description?: string;
+  description?: string
   /** hint สำหรับ argument เช่น "PR_NUMBER=123" */
-  argumentHint?: string;
+  argumentHint?: string
 }
 
 /** ผลลัพธ์จากการ parse slash command */
 export interface ParsedSlashCommand {
   /** ชื่อ command ไม่มี "/" */
-  name: string;
+  name: string
   /** arguments ที่ตามมา */
-  args: string;
+  args: string
 }
 
 /**
@@ -32,19 +32,19 @@ export interface ParsedSlashCommand {
  * @returns parsed command หรือ null ถ้าไม่ใช่ slash command
  */
 export function parseSlashCommand(message: string): ParsedSlashCommand | null {
-  const trimmed = message.trim();
-  if (!trimmed.startsWith("/")) return null;
+  const trimmed = message.trim()
+  if (!trimmed.startsWith("/")) return null
 
-  const spaceIdx = trimmed.indexOf(" ");
+  const spaceIdx = trimmed.indexOf(" ")
   if (spaceIdx === -1) {
     // เป็น "/" ตามด้วยชื่อเฉยๆ ไม่มี args
-    return { name: trimmed.slice(1), args: "" };
+    return { name: trimmed.slice(1), args: "" }
   }
 
   return {
     name: trimmed.slice(1, spaceIdx),
     args: trimmed.slice(spaceIdx + 1).trim(),
-  };
+  }
 }
 
 /**
@@ -56,25 +56,25 @@ export function parseSlashCommand(message: string): ParsedSlashCommand | null {
  */
 export function expandNamedArgs(template: string, argsString: string): string {
   // parse "KEY=value" หรือ 'KEY="value with space"'
-  const pairs = argsString.matchAll(/(\w+)=(?:"([^"]*)"|(\S+))/g);
-  const argMap: Record<string, string> = {};
+  const pairs = argsString.matchAll(/(\w+)=(?:"([^"]*)"|(\S+))/g)
+  const argMap: Record<string, string> = {}
 
   for (const match of pairs) {
-    const key = match[1];
-    const value = match[2] ?? match[3] ?? "";
-    argMap[key] = value;
+    const key = match[1]
+    const value = match[2] ?? match[3] ?? ""
+    argMap[key] = value
   }
 
   // แทนที่ $KEY ด้วย value
-  let result = template;
+  let result = template
   for (const [key, value] of Object.entries(argMap)) {
-    result = result.replaceAll(`$${key}`, value);
+    result = result.replaceAll(`$${key}`, value)
   }
 
   // แทนที่ $ARGUMENTS ด้วย args string ทั้งหมด
-  result = result.replaceAll("$ARGUMENTS", argsString);
+  result = result.replaceAll("$ARGUMENTS", argsString)
 
-  return result;
+  return result
 }
 
 /**
@@ -85,17 +85,17 @@ export function expandNamedArgs(template: string, argsString: string): string {
  * @param args - array ของ arguments
  */
 export function expandPositionalArgs(template: string, args: string[]): string {
-  let result = template;
+  let result = template
 
   // แทนที่ $1, $2, $3...
   args.forEach((arg, idx) => {
-    result = result.replaceAll(`$${idx + 1}`, arg);
-  });
+    result = result.replaceAll(`$${idx + 1}`, arg)
+  })
 
   // แทนที่ $ARGUMENTS ด้วยทั้งหมด
-  result = result.replaceAll("$ARGUMENTS", args.join(" "));
+  result = result.replaceAll("$ARGUMENTS", args.join(" "))
 
-  return result;
+  return result
 }
 
 /**
@@ -108,20 +108,20 @@ export function expandPositionalArgs(template: string, args: string[]): string {
  */
 export function expandSlashCommand(
   message: string,
-  customPrompts: CodexCustomPrompt[],
+  customPrompts: CodexCustomPrompt[]
 ): string | null {
-  const parsed = parseSlashCommand(message);
-  if (!parsed) return null;
+  const parsed = parseSlashCommand(message)
+  if (!parsed) return null
 
-  const prompt = customPrompts.find((p) => p.name === parsed.name);
-  if (!prompt) return null;
+  const prompt = customPrompts.find((p) => p.name === parsed.name)
+  if (!prompt) return null
 
   // ลอง named args ก่อน ถ้ามี "=" ใน args
   if (parsed.args.includes("=")) {
-    return expandNamedArgs(prompt.content, parsed.args);
+    return expandNamedArgs(prompt.content, parsed.args)
   }
 
   // ถ้าไม่มี "=" ใช้ positional args
-  const positionalArgs = parsed.args ? parsed.args.split(/\s+/) : [];
-  return expandPositionalArgs(prompt.content, positionalArgs);
+  const positionalArgs = parsed.args ? parsed.args.split(/\s+/) : []
+  return expandPositionalArgs(prompt.content, positionalArgs)
 }

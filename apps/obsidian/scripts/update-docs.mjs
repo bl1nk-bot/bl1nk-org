@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /**
  * update-docs.mjs
  * อัปเดต README.md และสร้าง AGENTS.md จาก SPEC และโครงสร้างจริง
@@ -9,48 +10,48 @@
  *   node scripts/update-docs.mjs --agents  (เฉพาะ AGENTS.md)
  */
 
-import fs from "node:fs/promises";
-import path from "node:path";
-import { existsSync } from "node:fs";
+import { existsSync } from "node:fs"
+import fs from "node:fs/promises"
+import path from "node:path"
 
-const ROOT = process.cwd();
-const ONLY_README = process.argv.includes("--readme");
-const ONLY_AGENTS = process.argv.includes("--agents");
-const DO_README = !ONLY_AGENTS;
-const DO_AGENTS = !ONLY_README;
+const ROOT = process.cwd()
+const ONLY_README = process.argv.includes("--readme")
+const ONLY_AGENTS = process.argv.includes("--agents")
+const DO_README = !ONLY_AGENTS
+const DO_AGENTS = !ONLY_README
 
 // อ่าน package.json
 async function readPkg() {
-  const file = path.join(ROOT, "package.json");
-  if (!existsSync(file)) return { name: "obsidian-acp-bl1nk", version: "0.2.0" };
-  return JSON.parse(await fs.readFile(file, "utf-8"));
+  const file = path.join(ROOT, "package.json")
+  if (!existsSync(file)) return { name: "obsidian-acp-bl1nk", version: "0.2.0" }
+  return JSON.parse(await fs.readFile(file, "utf-8"))
 }
 
 // อ่าน CHANGELOG.json เพื่อดึง latest entries
 async function readChangelog(n = 5) {
-  const file = path.join(ROOT, "CHANGELOG.json");
-  if (!existsSync(file)) return [];
-  const all = JSON.parse(await fs.readFile(file, "utf-8"));
-  return all.slice(-n).reverse();
+  const file = path.join(ROOT, "CHANGELOG.json")
+  if (!existsSync(file)) return []
+  const all = JSON.parse(await fs.readFile(file, "utf-8"))
+  return all.slice(-n).reverse()
 }
 
 // ตรวจโครงสร้างจริง
 function countFiles(dir) {
-  if (!existsSync(path.join(ROOT, dir))) return 0;
+  if (!existsSync(path.join(ROOT, dir))) return 0
   try {
-    const result = require("node:child_process")
-      .execSync(`find ${path.join(ROOT, dir)} -name "*.ts" | wc -l`, { encoding: "utf-8" });
-    return parseInt(result.trim());
+    const result = require("node:child_process").execSync(
+      `find ${path.join(ROOT, dir)} -name "*.ts" | wc -l`,
+      { encoding: "utf-8" }
+    )
+    return parseInt(result.trim())
   } catch {
-    return "?";
+    return "?"
   }
 }
 
 async function updateReadme(pkg, changelog) {
-  const date = new Date().toISOString().split("T")[0];
-  const recentChanges = changelog
-    .map(e => `- ${e.emoji} ${e.summary} _(${e.date})_`)
-    .join("\n");
+  const date = new Date().toISOString().split("T")[0]
+  const recentChanges = changelog.map((e) => `- ${e.emoji} ${e.summary} _(${e.date})_`).join("\n")
 
   const content = `# ${pkg.name} v${pkg.version}
 
@@ -98,14 +99,14 @@ ${recentChanges || "- ยังไม่มีบันทึก"}
 ---
 
 _อัปเดตอัตโนมัติ: ${date}_
-`;
+`
 
-  await fs.writeFile(path.join(ROOT, "README.md"), content);
-  console.log("✅ อัปเดต README.md");
+  await fs.writeFile(path.join(ROOT, "README.md"), content)
+  console.log("✅ อัปเดต README.md")
 }
 
 async function createAgentsMd() {
-  const date = new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString().split("T")[0]
 
   const content = `# AGENTS.md
 > คู่มือสำหรับ AI agent ที่จะทำงานในโปรเจ็คนี้
@@ -179,20 +180,20 @@ node scripts/progress.mjs             # ดูความคืบหน้า
 node scripts/update-changelog.mjs "..." --type decision  # บันทึกการตัดสินใจ
 node scripts/create-issue.mjs "..."   # สร้าง issue
 \`\`\`
-`;
+`
 
-  await fs.writeFile(path.join(ROOT, "AGENTS.md"), content);
-  console.log("✅ สร้าง AGENTS.md");
+  await fs.writeFile(path.join(ROOT, "AGENTS.md"), content)
+  console.log("✅ สร้าง AGENTS.md")
 }
 
 async function main() {
-  const pkg = await readPkg();
-  const changelog = await readChangelog(5);
+  const pkg = await readPkg()
+  const changelog = await readChangelog(5)
 
-  if (DO_README) await updateReadme(pkg, changelog);
-  if (DO_AGENTS) await createAgentsMd();
+  if (DO_README) await updateReadme(pkg, changelog)
+  if (DO_AGENTS) await createAgentsMd()
 
-  console.log("\n📄 อัปเดตเอกสารเสร็จแล้ว");
+  console.log("\n📄 อัปเดตเอกสารเสร็จแล้ว")
 }
 
-main().catch(console.error);
+main().catch(console.error)

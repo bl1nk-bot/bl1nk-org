@@ -6,16 +6,19 @@
   "license": "MIT",
   "type": "module",
   "workspaces": [
-    "app/*",
-    "packages/*",
-    "packages/packages/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "eslint ."
+    "lint": "biome check --write",
+    "lint:check": "biome check",
+    "format": "biome format --write",
+    "check": "biome check --write"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.5",
     "@eslint/css": "^0.14.1",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.1",

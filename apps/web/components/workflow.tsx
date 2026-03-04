@@ -1,7 +1,8 @@
-"use client";
+"use client"
 
-import { Canvas } from "@/components/ai-elements/canvas";
-import { Edge } from "@/components/ai-elements/edge";
+import { nanoid } from "nanoid"
+import { Canvas } from "@/components/ai-elements/canvas"
+import { Edge } from "@/components/ai-elements/edge"
 import {
   Node,
   NodeContent,
@@ -9,8 +10,7 @@ import {
   NodeFooter,
   NodeHeader,
   NodeTitle,
-} from "@/components/ai-elements/node";
-import { nanoid } from "nanoid";
+} from "@/components/ai-elements/node"
 
 const nodeIds = {
   decision: nanoid(),
@@ -19,7 +19,7 @@ const nodeIds = {
   process1: nanoid(),
   process2: nanoid(),
   start: nanoid(),
-};
+}
 
 const nodes = [
   {
@@ -82,7 +82,7 @@ const nodes = [
     position: { x: 2000, y: 0 },
     type: "workflow",
   },
-];
+]
 
 const edges = [
   {
@@ -121,17 +121,17 @@ const edges = [
     target: nodeIds.process2,
     type: "temporary",
   },
-];
+]
 
 const nodeTypes = {
   workflow: ({
     data,
   }: {
     data: {
-      label: string;
-      description: string;
-      handles: { target: boolean; source: boolean };
-    };
+      label: string
+      description: string
+      handles: { target: boolean; source: boolean }
+    }
   }) => (
     <Node handles={data.handles}>
       <NodeHeader>
@@ -146,21 +146,15 @@ const nodeTypes = {
       </NodeFooter>
     </Node>
   ),
-};
+}
 
 const edgeTypes = {
   animated: Edge.Animated,
   temporary: Edge.Temporary,
-};
+}
 
 const Example = () => (
-  <Canvas
-    edges={edges}
-    edgeTypes={edgeTypes}
-    fitView
-    nodes={nodes}
-    nodeTypes={nodeTypes}
-  />
-);
+  <Canvas edges={edges} edgeTypes={edgeTypes} fitView nodes={nodes} nodeTypes={nodeTypes} />
+)
 
-export default Example;
+export default Example

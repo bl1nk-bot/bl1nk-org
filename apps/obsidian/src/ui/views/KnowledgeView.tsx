@@ -1,30 +1,30 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
-import * as React from "react";
-import { useState } from "react";
-import { createRoot, Root } from "react-dom/client";
-import { Search, Database, ExternalLink } from "lucide-react";
+import { Database, ExternalLink, Search } from "lucide-react"
+import { ItemView, type WorkspaceLeaf } from "obsidian"
+import * as React from "react"
+import { useState } from "react"
+import { createRoot, type Root } from "react-dom/client"
 
-import type SmartAssistantPlugin from "../../main";
-import type { PluginSettings } from "../../types/acp.types";
+import type SmartAssistantPlugin from "../../main"
+import type { PluginSettings } from "../../types/acp.types"
 
-export const VIEW_TYPE_KNOWLEDGE = "knowledge";
+export const VIEW_TYPE_KNOWLEDGE = "knowledge"
 
 interface KnowledgeComponentProps {
-  plugin: SmartAssistantPlugin;
+  plugin: SmartAssistantPlugin
 }
 
 const KnowledgeComponent: React.FC<KnowledgeComponentProps> = ({ plugin }) => {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<string[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [query, setQuery] = useState("")
+  const [results, setResults] = useState<string[]>([])
+  const [isSearching, setIsSearching] = useState(false)
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    if (!query.trim()) return
 
-    setIsSearching(true);
+    setIsSearching(true)
     try {
       // เรียกผ่าน KnowledgeManager (ยังเป็น dummy)
-      console.log("🔍 Searching Knowledge Base:", query);
+      console.log("🔍 Searching Knowledge Base:", query)
       // const data = await plugin.knowledgeManager.query(query);
       // setResults(data);
 
@@ -33,13 +33,13 @@ const KnowledgeComponent: React.FC<KnowledgeComponentProps> = ({ plugin }) => {
         `ผลการค้นหา: ${query} (จาก AnythingLLM)`,
         "ตัวอย่างเอกสารที่เกี่ยวข้อง 1",
         "ตัวอย่างเอกสารที่เกี่ยวข้อง 2",
-      ]);
+      ])
     } catch (error) {
-      console.error("Search error:", error);
+      console.error("Search error:", error)
     } finally {
-      setIsSearching(false);
+      setIsSearching(false)
     }
-  };
+  }
 
   return (
     <div className="osa-knowledge-view flex flex-col h-full bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
@@ -55,10 +55,7 @@ const KnowledgeComponent: React.FC<KnowledgeComponentProps> = ({ plugin }) => {
       <div className="osa-knowledge-search p-4 space-y-4">
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
-              size={18}
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
             <input
               type="text"
               value={query}
@@ -101,43 +98,41 @@ const KnowledgeComponent: React.FC<KnowledgeComponentProps> = ({ plugin }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Obsidian ItemView Wrapper
 export class KnowledgeView extends ItemView {
-  private root: Root | null = null;
-  private plugin: SmartAssistantPlugin;
+  private root: Root | null = null
+  private plugin: SmartAssistantPlugin
 
   constructor(leaf: WorkspaceLeaf, plugin: SmartAssistantPlugin) {
-    super(leaf);
-    this.plugin = plugin;
+    super(leaf)
+    this.plugin = plugin
   }
 
   getViewType(): string {
-    return VIEW_TYPE_KNOWLEDGE;
+    return VIEW_TYPE_KNOWLEDGE
   }
 
   getDisplayText(): string {
-    return "Knowledge Base";
+    return "Knowledge Base"
   }
 
   getIcon(): string {
-    return "database";
+    return "database"
   }
 
   async onOpen() {
-    const container = this.containerEl.children[1] as HTMLElement;
-    container.empty();
+    const container = this.containerEl.children[1] as HTMLElement
+    container.empty()
 
-    this.root = createRoot(container);
-    this.root.render(
-      React.createElement(KnowledgeComponent, { plugin: this.plugin }),
-    );
+    this.root = createRoot(container)
+    this.root.render(React.createElement(KnowledgeComponent, { plugin: this.plugin }))
   }
 
   async onClose() {
-    this.root?.unmount();
-    this.root = null;
+    this.root?.unmount()
+    this.root = null
   }
 }

@@ -4,21 +4,21 @@
  * รองรับ text, image, และ EmbeddedResource (@-mention ไฟล์)
  */
 
-import type { AdapterContentBlock } from "../BaseAdapter";
+import type { AdapterContentBlock } from "../BaseAdapter"
 
 /** ContentBlock format ที่ ACP SDK ต้องการ */
 export type AcpContentBlock =
   | { type: "text"; text: string; meta?: null }
   | { type: "image"; data: string; mimeType: string; meta?: null }
   | {
-      type: "resource";
+      type: "resource"
       resource: {
-        uri: string;
-        text: string;
-        mimeType?: string;
-      };
-      meta?: null;
-    };
+        uri: string
+        text: string
+        mimeType?: string
+      }
+      meta?: null
+    }
 
 /**
  * แปลง AdapterContentBlock → AcpContentBlock
@@ -34,14 +34,14 @@ export function buildAcpContent(blocks: AdapterContentBlock[]): AcpContentBlock[
         return {
           type: "text" as const,
           text: block.text ?? "",
-        };
+        }
 
       case "image":
         return {
           type: "image" as const,
           data: block.data ?? "",
           mimeType: block.mimeType ?? "image/png",
-        };
+        }
 
       case "file":
         // EmbeddedResource — ใช้สำหรับ @-mention ไฟล์ใน Obsidian vault
@@ -52,9 +52,9 @@ export function buildAcpContent(blocks: AdapterContentBlock[]): AcpContentBlock[
             text: block.fileText ?? "",
             mimeType: guessMimeType(block.filePath ?? ""),
           },
-        };
+        }
     }
-  });
+  })
 }
 
 /**
@@ -64,7 +64,7 @@ export function buildAcpContent(blocks: AdapterContentBlock[]): AcpContentBlock[
  * @param text - ข้อความที่ต้องการส่ง
  */
 export function textBlock(text: string): AdapterContentBlock {
-  return { type: "text", text };
+  return { type: "text", text }
 }
 
 /**
@@ -75,7 +75,7 @@ export function textBlock(text: string): AdapterContentBlock {
  * @param fileText - เนื้อหาของไฟล์
  */
 export function fileBlock(filePath: string, fileText: string): AdapterContentBlock {
-  return { type: "file", filePath, fileText };
+  return { type: "file", filePath, fileText }
 }
 
 /**
@@ -85,7 +85,7 @@ export function fileBlock(filePath: string, fileText: string): AdapterContentBlo
  * @param mimeType - mime type ของรูป
  */
 export function imageBlock(data: string, mimeType = "image/png"): AdapterContentBlock {
-  return { type: "image", data, mimeType };
+  return { type: "image", data, mimeType }
 }
 
 /**
@@ -95,7 +95,7 @@ export function imageBlock(data: string, mimeType = "image/png"): AdapterContent
  * @param filePath - path ของไฟล์
  */
 function guessMimeType(filePath: string): string {
-  const ext = filePath.split(".").pop()?.toLowerCase() ?? "";
+  const ext = filePath.split(".").pop()?.toLowerCase() ?? ""
   const map: Record<string, string> = {
     md: "text/markdown",
     ts: "text/typescript",
@@ -106,6 +106,6 @@ function guessMimeType(filePath: string): string {
     txt: "text/plain",
     html: "text/html",
     css: "text/css",
-  };
-  return map[ext] ?? "text/plain";
+  }
+  return map[ext] ?? "text/plain"
 }

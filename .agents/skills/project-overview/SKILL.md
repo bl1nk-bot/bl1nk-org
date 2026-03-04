@@ -1,264 +1,325 @@
 ---
 name: project-overview
-description: Complete project architecture and structure guide. Use when exploring the codebase, understanding project organization, finding files, or needing comprehensive architectural context. Triggers on architecture questions, directory navigation, or project overview needs.
+description: Complete project architecture and structure guide for bl1nk-org monorepo. Use when exploring the codebase, understanding project organization, finding files, or needing architectural context. Triggers on: architecture questions, directory navigation, "where is X", "how does X work", adding new features, understanding data flow, or when user mentions any app/package paths.
 ---
 
-# Project Overview: The Omnipresent AI Workspace
+# Project Overview: bl1nk-org Monorepo
 
-System architecture for a local-first, cloud-enhanced AI agent workspace.
-This document provides a complete guide to the project’s structure, technology stack, data flow, and design principles.
+**Local-first AI agent workspace with cloud enhancement**
 
----
-
-## 📋 Description
-
-A personal AI agent workspace ecosystem that is local-first but seamlessly integrates cloud capabilities (thin client, fat cloud).
-The platform supports multiple clients:
-
-· Web (Browser)
-· Desktop (macOS / Windows / Linux) – Native (Tauri)
-· Obsidian (Plugin)
-· Mobile (Android)
-· Documentation site
-
-Core architecture: Monorepo managed with Bun and Just (task runner).
+A monorepo containing multiple AI workspace clients (Web, Desktop, Obsidian, Android) sharing common packages for agent runtime, storage, and database.
 
 ---
 
-## 🧰 Complete Tech Stack
+## 📦 Tech Stack
 
-Category Technology
-Framework (Web) Next.js 16 + React 19 (includes Vercel Edge API)
-Framework (Desktop) Tauri v2 + Vite
-Language TypeScript (frontend), Rust (desktop core), Python (Modal cloud)
-UI Components shadcn/ui, Tailwind CSS
-State Management Zustand
-Data Validation Zod
-Workspace / Tooling Bun (package manager), Just (task runner)
-Cloud Compute Modal (integrated via packages)
-API Gateway Vercel Edge Functions (integrated in web/)
-Database Neon (PostgreSQL) + Drizzle ORM (in packages/)
-Object Storage Cloudflare R2 + Boto3
-Agent Protocol Model Context Protocol (MCP)
-Plugin Bundler esbuild (for Obsidian)
+| Layer | Technology |
+|-------|-----------|
+| **Web Framework** | Next.js 15 + React 19 |
+| **UI Components** | shadcn/ui (24 components) + Tailwind CSS v4 |
+| **State Management** | Zustand 5.0 |
+| **Data Validation** | Zod 4.3 |
+| **Package Manager** | Bun 1.1.0 |
+| **Task Runner** | Just |
+| **Build Tool** | Turbo 2.0 |
+| **Linting** | Biome 2.4.5 (replacing ESLint/Prettier) |
+| **AI/LLM** | Vercel AI SDK 6.0, @ai-sdk/gateway |
+| **Database** | PostgreSQL (via @bl1nk/database package) |
+| **Cloud Storage** | Cloudflare R2 + Boto3 (@bl1nk/cloud-storage) |
+| **Agent Runtime** | Modal (@bl1nk/modal-runtime) |
+| **Telemetry** | Custom (@bl1nk/telemetry) |
 
 ---
 
-## 📁 Complete Project Structure
-
-The monorepo clearly separates frontend (thin clients) from shared packages (core logic & cloud compute).
+## 📁 Project Structure
 
 ```
-project-root/
-├── .github/
-│   ├── workflows/              # CI/CD pipelines
-│   └── ISSUE_TEMPLATE/
-├── .vscode/                    # VSCode settings
-├── .env.example                # Environment template
-├── .gitignore
-├── .npmrc / .bunrc
-├── turbo.json                  # Turborepo config (optional)
-├── justfile                    # Task runner
-├── package.json                # Bun workspace root
-├── tsconfig.base.json          # Base TypeScript config
-├── README.md
-└── docs/                       # Architecture documentation
-
-app/
-├── web/                         # Next.js Web App + Vercel API Gateway
-│   ├── app/                     # App Router
-│   │   ├── (auth)/
-│   │   ├── (dashboard)/
-│   │   ├── api/                 # Route handlers (Vercel Edge Functions / API Gateway)
-│   │   │   ├── agent/
-│   │   │   ├── tools/
-│   │   │   └── storage/
-│   │   └── layout.tsx
-│   ├── components/
-│   │   ├── ui/                  # shadcn/ui components
-│   │   ├── features/            # Feature-specific components
-│   │   └── layouts/
-│   ├── hooks/                    # Custom React hooks
-│   ├── lib/
-│   │   ├── api.ts
-│   │   ├── utils.ts
-│   │   └── constants.ts
-│   ├── store/                    # Zustand stores
-│   │   ├── auth.ts
-│   │   ├── agent.ts
-│   │   └── ui.ts
-│   ├── middleware.ts             # Vercel Edge Middleware (Auth, CORS, Logging)
-│   ├── vercel.json                # Vercel configuration
-│   ├── next.config.ts
-│   ├── tsconfig.json
-│   └── package.json
-│
-├── desktop/                       # Tauri v2 Desktop App
-│   ├── src/                       # React + Vite UI
+bl1nk-org/
+├── apps/                          # Client applications
+│   ├── web/                       # Next.js web app (primary)
+│   │   ├── app/                   # Next.js app router
+│   │   │   ├── layout.tsx         # Root layout with Toaster
+│   │   │   ├── globals.css        # Tailwind + CSS variables
+│   │   │   └── api/chat/route.ts  # Chat API endpoint
 │   │   ├── components/
+│   │   │   ├── ui/                # shadcn/ui components (24)
+│   │   │   │   ├── button.tsx
+│   │   │   │   ├── card.tsx
+│   │   │   │   ├── dialog.tsx
+│   │   │   │   ├── skeleton.tsx
+│   │   │   │   ├── sonner.tsx     # Toast notifications
+│   │   │   │   ├── tabs.tsx
+│   │   │   │   ├── avatar.tsx
+│   │   │   │   ├── breadcrumb.tsx
+│   │   │   │   ├── scroll-area.tsx
+│   │   │   │   ├── separator.tsx
+│   │   │   │   └── ... (14 more)
+│   │   │   └── ai-elements/       # AI-specific components (14)
+│   │   │       ├── agent.tsx
+│   │   │       ├── code-block.tsx
+│   │   │       ├── checkpoint.tsx
+│   │   │       ├── conversation.tsx
+│   │   │       ├── file-tree.tsx
+│   │   │       ├── message.tsx
+│   │   │       ├── plan.tsx
+│   │   │       ├── queue.tsx
+│   │   │       ├── task.tsx
+│   │   │       ├── terminal.tsx
+│   │   │       ├── canvas.tsx
+│   │   │       ├── edge.tsx
+│   │   │       └── node.tsx
+│   │   ├── lib/
+│   │   │   └── utils.ts           # cn() utility
 │   │   ├── hooks/
-│   │   ├── store/
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── src-tauri/                 # Rust backend
-│   │   ├── src/
-│   │   │   ├── main.rs
-│   │   │   ├── commands/
-│   │   │   ├── services/
-│   │   │   └── utils/
-│   │   ├── Cargo.toml
-│   │   └── tauri.conf.json
-│   ├── vite.config.ts
-│   ├── tsconfig.json
-│   └── package.json
+│   │   ├── store/                 # Zustand stores
+│   │   │   ├── agent.ts
+│   │   │   ├── auth.ts
+│   │   │   └── ui.ts
+│   │   ├── middleware.ts
+│   │   ├── next.config.ts
+│   │   ├── tailwind.config.ts
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
+│   ├── desktop/                   # Tauri v2 desktop app
+│   │   ├── src/                   # React + Vite UI
+│   │   └── src-tauri/             # Rust backend
+│   │
+│   ├── obsidian/                  # Obsidian plugin
+│   ├── android/                   # React Native app
+│   └── docs/                      # Documentation site (Astro)
 │
-├── obsidian/                       # Obsidian Plugin
-│   ├── src/
-│   │   ├── main.ts
-│   │   ├── settings.ts
-│   │   ├── commands/
-│   │   └── ui/
-│   ├── esbuild.config.js
-│   ├── manifest.json
-│   ├── tsconfig.json
-│   └── package.json
+├── packages/                      # Shared packages
+│   ├── agent-runtime/             # Agent runtime execution
+│   ├── cloud-storage/             # Cloudflare R2 + Boto3
+│   ├── database/                  # PostgreSQL + Drizzle ORM
+│   ├── modal-runtime/             # Modal cloud compute
+│   └── telemetry/                 # Logging & analytics
 │
-├── android/                         # React Native / Flutter
-│   ├── src/
-│   ├── android/
-│   ├── ios/
-│   └── package.json
+├── docs/                          # Documentation
+├── scripts/                       # Build/deploy scripts
 │
-└── doc/                            # Documentation Site (Astro/Docusaurus)
-    ├── src/
-    ├── public/
-    └── astro.config.mjs
-
-packages/
-├── docs/
-│   ├── changelog/
-│   ├── development/
-│   ├── self-hosting/
-│   └── usage/
-├── locales/
-│   ├── en-US/
-│   ├── zh-CN/
-│   └── th-TH/
-├── packages/
-│   ├── agent-runtime/               # Agent runtime execution
-│   ├── builtin-agents/               # Pre-configured AI agents
-│   ├── builtin-tool-*/                # Builtin tool packages (MCP based)
-│   ├── business/                      # Cloud-only business logic
-│   │   ├── config/
-│   │   ├── const/
-│   │   └── model-runtime/
-│   ├── config/
-│   ├── const/
-│   ├── context-engine/                # Context management
-│   ├── conversation-flow/             # Chat logic and history
-│   ├── database/                      # Database Layer (Neon + Drizzle ORM)
-│   │   ├── drizzle.config.ts
-│   │   └── src/
-│   │       ├── models/
-│   │       ├── schemas/               # Drizzle schemas (users, agents, artifacts)
-│   │       ├── migrations/
-│   │       └── repositories/
-│   ├── desktop-bridge/                 # Tauri IPC bridge
-│   ├── edge-config/
-│   ├── editor-runtime/
-│   ├── fetch-sse/
-│   ├── file-loaders/
-│   ├── memory-user-memory/
-│   ├── model-bank/
-│   ├── model-runtime/                  # LLM Integrations
-│   │   └── src/
-│   │       ├── core/
-│   │       └── providers/
-│   ├── observability-otel/             # OpenTelemetry
-│   ├── prompts/
-│   ├── python-interpreter/              # Modal Sandbox & Python execution logic
-│   ├── cloud-storage/                   # Cloudflare R2 + Boto3 handlers
-│   ├── ssrf-safe-fetch/
-│   ├── types/
-│   ├── utils/
-│   └── web-crawler/                     # Exa/Playwright integration
-├── telemetry/                           # Logging & Analytics
-│   ├── src/
-│   │   ├── logger.ts
-│   │   ├── analytics.ts
-│   │   ├── types.ts
-│   │   └── index.ts
-│   ├── tsconfig.json
-│   └── package.json
-
-project-root/
-├── .env.example
-├── .env.local (git-ignored)
-├── .env.production
-├── docker-compose.yml          # Local development
-├── Dockerfile (root)           # Multi-stage build
-└── .dockerignore
+├── .agents/skills/                # Agent skills
+│   ├── linear/
+│   ├── project-overview/
+│   └── shadcn-ui/
+│
+├── .qwen/skills/                  # Qwen Code skills (symlinks)
+├── .claude/                       # Claude Code config
+├── .vscode/                       # VSCode settings
+│
+├── biome.json                     # Biome linter/formatter config
+├── bunfig.toml                    # Bun config
+├── docker-compose.yml             # Local dev services
+├── justfile                       # Task definitions
+├── package.json                   # Root workspace config
+├── tsconfig.base.json             # Base TypeScript config
+├── turbo.json                     # Turborepo config
+└── vercel.json                    # Vercel deployment config
 ```
 
 ---
 
-## 🔄 Data Flow Architecture
+## 🔄 Key Workflows
 
-All actions start from the user interface (UI → State → Network → Compute → Storage).
+### 1. Development
 
-### 1️⃣ Agent Interaction Flow (Standard conversation)
+```bash
+# Install dependencies
+bun install
 
-```
-React UI (shadcn)
-  ↓
-Zustand Action (update UI state)
-  ↓
-Next.js API Routes (Vercel API Gateway + Auth)
-  ↓
-Agent Runtime via Packages (LLM processing / Modal compute)
-  ↓
-Server-Sent Events (SSE) streamed back
-  ↓
-React UI (real-time updates)
-```
+# Run all apps in dev mode
+bun run dev
 
-### 2️⃣ Tool Execution Flow
+# Run specific app
+cd apps/web && bun run dev
 
-```
-React UI
-  ↓
-Next.js API Routes (Vercel Edge)
-  ↓
-Agent Runtime (command analysis)
-  ↓
-packages/builtin-tool-* (invoke MCP tool / Tool Registry)
-  ↓
-Python Interpreter Sandbox (code execution / data fetch via Modal)
-  ↓
-Return result / feed back to agent context
+# Lint and format
+bun run lint          # Biome check --write
+bun run lint:check    # Biome check (read-only)
+bun run format        # Biome format --write
 ```
 
-### 3️⃣ Artifact & Storage Flow (Long‑term data)
+### 2. Building
 
+```bash
+# Build all apps
+bun run build
+
+# Build specific app
+cd apps/web && bun run build
 ```
-Python Interpreter Sandbox / Agent Runtime (generate file/image)
-  ↓
-packages/cloud-storage (Boto3 upload to Cloudflare R2)
-  ↓
-packages/database (save URL to Neon DB via Drizzle)
-  ↓
-URL returned to Zustand store (via frontend)
-  ↓
-React Render (display artifact)
+
+### 3. Adding Components
+
+```bash
+# Add shadcn/ui component
+cd apps/web
+npx shadcn@latest add [component-name]
+
+# Available components (24 total)
+accordion, alert, avatar, badge, breadcrumb, button, card, collapsible,
+command, dialog, dropdown-menu, hover-card, input, input-group,
+progress, scroll-area, select, separator, sidebar, skeleton, sonner,
+spinner, tabs, textarea, tooltip
 ```
 
 ---
 
-## 🧱 Key Principles
+## 🎯 Important Files & Patterns
 
-· ✅ Separation of Concerns – Frontend (UI) ↔ Packages (logic & compute) ↔ Database/Storage
-· ✅ Scalability – Each layer can scale independently
-· ✅ Type Safety – Full TypeScript across frontend and backend logic
-· ✅ Modularity – Packages for shared code and isolated cloud components
-· ✅ Local-First – Desktop app works offline
-· ✅ Cloud-Ready – Seamless integration with Modal and Vercel Edge
+### Component Imports
+
+```typescript
+// UI components (shadcn/ui)
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+
+// AI elements (custom)
+import { Agent } from "@/components/ai-elements/agent"
+import { CodeBlock } from "@/components/ai-elements/code-block"
+
+// Utilities
+import { cn } from "@/lib/utils"
+```
+
+### State Management (Zustand)
+
+```typescript
+import { useAgentStore } from "@/store/agent"
+import { useUIStore } from "@/store/ui"
+```
+
+### File Locations
+
+| Need | Look Here |
+|------|-----------|
+| UI components | `apps/web/components/ui/` |
+| AI components | `apps/web/components/ai-elements/` |
+| API routes | `apps/web/app/api/` |
+| Shared types | `packages/*/src/types/` |
+| Database schemas | `packages/database/src/schemas/` |
+| Agent skills | `.agents/skills/` or `.qwen/skills/` |
+
+---
+
+## 📋 Configuration Files
+
+### `biome.json` - Linting/Formatting
+
+```json
+{
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "asNeeded"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
+}
+```
+
+### `package.json` - Scripts
+
+```json
+{
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "biome check --write",
+    "lint:check": "biome check",
+    "format": "biome format --write"
+  }
+}
+```
+
+### `components.json` - Shadcn UI
+
+```json
+{
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide"
+}
+```
+
+---
+
+## 🚀 Deployment
+
+### Web App (Vercel)
+
+- Deployed via `vercel.json` config
+- Edge functions in `app/api/`
+- Static assets optimized automatically
+
+### Desktop App (Tauri)
+
+- Build: `cd apps/desktop && bun run build`
+- Outputs: macOS (.dmg), Windows (.msi), Linux (.AppImage)
+
+### Obsidian Plugin
+
+- Build: `cd apps/obsidian && bun run build`
+- Outputs: `main.js`, `manifest.json`
+
+---
+
+## 📚 Skills Available
+
+This project uses agent skills for enhanced productivity:
+
+1. **project-overview** (this skill) - Architecture & structure
+2. **shadcn-ui** - UI component patterns & installation
+3. **linear** - Linear issue tracking integration
+
+Skills are stored in `.agents/skills/` and symlinked to `.qwen/skills/`
+
+---
+
+## 🔧 Common Tasks
+
+### Adding a new page
+
+1. Create file in `apps/web/app/[route]/page.tsx`
+2. Import UI components from `@/components/ui/`
+3. Use Zustand stores for state if needed
+
+### Adding a new component
+
+1. Run `npx shadcn@latest add [name]` in `apps/web/`
+2. Component created in `components/ui/`
+3. Import and use in pages
+
+### Modifying shared logic
+
+1. Edit in appropriate `packages/` folder
+2. Changes auto-reflect in all apps via workspace links
+
+### Debugging
+
+- Check `apps/web/.next/` for build output
+- Use `bun run lint` to catch errors early
+- Biome provides auto-fixes for most issues
+
+---
+
+## 📞 Contact & Resources
+
+- **Web**: https://bl1nk.site
+- **Email**: org@bl1nk.site, team@bl1nk.site
+- **License**: MIT

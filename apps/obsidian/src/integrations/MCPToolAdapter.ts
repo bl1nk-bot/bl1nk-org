@@ -1,33 +1,29 @@
-import { NotionClient } from "./NotionClient";
-import { AirtableClient } from "./AirtableClient";
-import { ClickUpClient } from "./ClickUpClient";
+import { AirtableClient } from "./AirtableClient"
+import { ClickUpClient } from "./ClickUpClient"
+import { NotionClient } from "./NotionClient"
 
 export interface MCPToolDefinition {
-  name: string;
-  description: string;
+  name: string
+  description: string
   inputSchema: {
-    type: "object";
-    properties: Record<string, { type: string; description?: string }>;
-    required?: string[];
-  };
+    type: "object"
+    properties: Record<string, { type: string; description?: string }>
+    required?: string[]
+  }
 }
 
 export class MCPToolAdapter {
-  private notionClient: NotionClient;
-  private airtableClient: AirtableClient;
-  private clickupClient: ClickUpClient;
-  private tools: MCPToolDefinition[] = [];
+  private notionClient: NotionClient
+  private airtableClient: AirtableClient
+  private clickupClient: ClickUpClient
+  private tools: MCPToolDefinition[] = []
 
-  constructor(
-    notionApiKey?: string,
-    airtableApiKey?: string,
-    clickupApiKey?: string,
-  ) {
-    this.notionClient = new NotionClient(notionApiKey);
-    this.airtableClient = new AirtableClient(airtableApiKey);
-    this.clickupClient = new ClickUpClient(clickupApiKey);
+  constructor(notionApiKey?: string, airtableApiKey?: string, clickupApiKey?: string) {
+    this.notionClient = new NotionClient(notionApiKey)
+    this.airtableClient = new AirtableClient(airtableApiKey)
+    this.clickupClient = new ClickUpClient(clickupApiKey)
 
-    this.registerTools();
+    this.registerTools()
   }
 
   private registerTools(): void {
@@ -151,30 +147,27 @@ export class MCPToolAdapter {
           },
           required: ["task_id"],
         },
-      },
-    );
+      }
+    )
   }
 
   getTools(): MCPToolDefinition[] {
-    return this.tools;
+    return this.tools
   }
 
-  async callTool(
-    name: string,
-    args: Record<string, unknown>,
-  ): Promise<unknown> {
-    const [provider, ...actionParts] = name.split("_");
-    const action = actionParts.join("_");
+  async callTool(name: string, args: Record<string, unknown>): Promise<unknown> {
+    const [provider, ...actionParts] = name.split("_")
+    const action = actionParts.join("_")
 
     switch (provider) {
       case "notion":
-        return this.notionClient.execute({ name: action } as any, args);
+        return this.notionClient.execute({ name: action } as any, args)
       case "airtable":
-        return this.airtableClient.execute({ name: action } as any, args);
+        return this.airtableClient.execute({ name: action } as any, args)
       case "clickup":
-        return this.clickupClient.execute({ name: action } as any, args);
+        return this.clickupClient.execute({ name: action } as any, args)
       default:
-        throw new Error(`Unknown tool provider: ${provider}`);
+        throw new Error(`Unknown tool provider: ${provider}`)
     }
   }
 
@@ -183,6 +176,6 @@ export class MCPToolAdapter {
       name: t.name,
       description: t.description,
       inputSchema: t.inputSchema,
-    }));
+    }))
   }
 }

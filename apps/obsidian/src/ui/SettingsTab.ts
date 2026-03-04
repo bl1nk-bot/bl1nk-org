@@ -1,20 +1,20 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
-import SmartAssistantPlugin from "../main";
+import { type App, PluginSettingTab, Setting } from "obsidian"
+import type SmartAssistantPlugin from "../main"
 
 export class SmartAssistantSettingsTab extends PluginSettingTab {
-  plugin: SmartAssistantPlugin;
+  plugin: SmartAssistantPlugin
 
   constructor(app: App, plugin: SmartAssistantPlugin) {
-    super(app, plugin);
-    this.plugin = plugin;
+    super(app, plugin)
+    this.plugin = plugin
   }
 
   display(): void {
-    const { containerEl } = this;
+    const { containerEl } = this
 
-    containerEl.empty();
+    containerEl.empty()
 
-    containerEl.createEl("h2", { text: "Obsidian Smart Assistant Settings" });
+    containerEl.createEl("h2", { text: "Obsidian Smart Assistant Settings" })
 
     new Setting(containerEl)
       .setName("Node.js Path")
@@ -24,10 +24,10 @@ export class SmartAssistantSettingsTab extends PluginSettingTab {
           .setPlaceholder("/usr/local/bin/node")
           .setValue(this.plugin.settings.acp.nodePath || "")
           .onChange(async (value) => {
-            this.plugin.settings.acp.nodePath = value;
-            await this.plugin.saveSettings();
-          }),
-      );
+            this.plugin.settings.acp.nodePath = value
+            await this.plugin.saveSettings()
+          })
+      )
 
     new Setting(containerEl)
       .setName("Context Mode")
@@ -39,24 +39,22 @@ export class SmartAssistantSettingsTab extends PluginSettingTab {
           .addOption("manual", "Manual")
           .setValue(this.plugin.settings.acp.contextMode)
           .onChange(async (value: any) => {
-            this.plugin.settings.acp.contextMode = value;
-            await this.plugin.saveSettings();
-          }),
-      );
+            this.plugin.settings.acp.contextMode = value
+            await this.plugin.saveSettings()
+          })
+      )
 
-    containerEl.createEl("h3", { text: "AnythingLLM (RAG) Settings" });
+    containerEl.createEl("h3", { text: "AnythingLLM (RAG) Settings" })
 
     new Setting(containerEl)
       .setName("Enable RAG")
       .setDesc("Enable retrieval augmented generation using AnythingLLM")
       .addToggle((toggle) =>
-        toggle
-          .setValue(this.plugin.settings.rag.enabled)
-          .onChange(async (value) => {
-            this.plugin.settings.rag.enabled = value;
-            await this.plugin.saveSettings();
-          }),
-      );
+        toggle.setValue(this.plugin.settings.rag.enabled).onChange(async (value) => {
+          this.plugin.settings.rag.enabled = value
+          await this.plugin.saveSettings()
+        })
+      )
 
     new Setting(containerEl)
       .setName("AnythingLLM Endpoint")
@@ -66,10 +64,10 @@ export class SmartAssistantSettingsTab extends PluginSettingTab {
           .setPlaceholder("http://localhost:3001")
           .setValue(this.plugin.settings.rag.endpoint)
           .onChange(async (value) => {
-            this.plugin.settings.rag.endpoint = value;
-            await this.plugin.saveSettings();
-          }),
-      );
+            this.plugin.settings.rag.endpoint = value
+            await this.plugin.saveSettings()
+          })
+      )
 
     new Setting(containerEl)
       .setName("AnythingLLM API Key")
@@ -79,12 +77,12 @@ export class SmartAssistantSettingsTab extends PluginSettingTab {
           .setPlaceholder("Enter API Key")
           .setValue(this.plugin.settings.rag.apiKey || "")
           .onChange(async (value) => {
-            this.plugin.settings.rag.apiKey = value;
-            await this.plugin.saveSettings();
-          }),
-      );
+            this.plugin.settings.rag.apiKey = value
+            await this.plugin.saveSettings()
+          })
+      )
 
-    containerEl.createEl("h3", { text: "Integrations" });
+    containerEl.createEl("h3", { text: "Integrations" })
 
     new Setting(containerEl)
       .setName("Notion Integration")
@@ -96,9 +94,9 @@ export class SmartAssistantSettingsTab extends PluginSettingTab {
             this.plugin.settings.integrations.notion = {
               ...this.plugin.settings.integrations.notion,
               enabled: value,
-            };
-            await this.plugin.saveSettings();
-          }),
-      );
+            }
+            await this.plugin.saveSettings()
+          })
+      )
   }
 }

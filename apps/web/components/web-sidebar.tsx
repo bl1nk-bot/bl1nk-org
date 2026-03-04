@@ -1,11 +1,7 @@
-import * as React from "react"
 import { ChevronRight, File, Folder } from "lucide-react"
+import type * as React from "react"
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
@@ -37,22 +33,8 @@ const data = {
     },
   ],
   tree: [
-    [
-      "app",
-      [
-        "api",
-        ["hello", ["route.ts"]],
-        "page.tsx",
-        "layout.tsx",
-        ["blog", ["page.tsx"]],
-      ],
-    ],
-    [
-      "components",
-      ["ui", "button.tsx", "card.tsx"],
-      "header.tsx",
-      "footer.tsx",
-    ],
+    ["app", ["api", ["hello", ["route.ts"]], "page.tsx", "layout.tsx", ["blog", ["page.tsx"]]]],
+    ["components", ["ui", "button.tsx", "card.tsx"], "header.tsx", "footer.tsx"],
     ["lib", ["util.ts"]],
     ["public", "favicon.ico", "vercel.svg"],
     ".eslintrc.json",

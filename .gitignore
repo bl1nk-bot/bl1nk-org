@@ -1,36 +1,277 @@
 # ========================
-# Global
-.DS_Store
-Thumbs.db
-*.log
-*.tmp
-*.swp
-# Node / Next.js
-node_modules/
-.next/
-out/
-dist/
-build/
-coverage/
-.vercel/
+# Environment Variables (CRITICAL - NEVER COMMIT)
+# ========================
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.env.local
+.env.example.local
+
+# ========================
+# Secrets & Credentials (CRITICAL - NEVER COMMIT)
+# ========================
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+secrets.json
+credentials.json
+service-account*.json
+firebase-adminsdk*.json
+*.secret
+*.secrets
+private/
+.ssh/
+.gnupg/
+*.token
+*.auth
+api_keys.json
+config.secrets.*
+
+# ========================
+# Database Files (NEVER COMMIT)
+# ========================
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+!*.sql.example
+data/
+!.gitkeep
+*.dump
+
+# ========================
+# Operating System
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.lnk
+desktop.ini
+
+# ========================
+# Temporary Files
+# ========================
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+.tmp/
+.temp/
+*.bak
+*.backup
+*.old
+*.orig
+
+# ========================
+# Node.js / Bun / JavaScript
+# ========================
+node_modules/
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-# Rust
-target/
-Cargo.lock
-# Tauri
-src-tauri/target/
-src-tauri/gen/
-src-tauri/binaries/
-src-tauri/.cargo/
-src-tauri/Cargo.lock
-# IDE
-.vscode/
+.npm
+.eslintcache
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+*.tsbuildinfo
+
+# ========================
+# Next.js
+# ========================
+.next/
+out/
+build/
+dist/
+coverage/
+.vercel/
+
+# ========================
+# Testing & Coverage
+# ========================
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+test-results.json
+*.lcov
+jest-results/
+
+# ========================
+# IDE & Editors
+# ========================
 .idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/mcp.json
+*.code-workspace
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ========================
+# Rust (Tauri)
+# ========================
+target/
+**/target/
+**/src-tauri/target/
+Cargo.lock
+**/Cargo.lock
+**/src-tauri/Cargo.lock
+**/src-tauri/gen/
+**/src-tauri/binaries/
+**/src-tauri/.cargo/
+
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ========================
+# Build Artifacts
+# ========================
+*.jar
+*.war
+*.ear
+*.exe
+*.dll
+*.o
+*.a
+*.lib
+
+# ========================
+# Logs
+# ========================
+logs/
+lerna-debug.log*
+
+# ========================
+# AI Skills (Generated/Symlinked)
+# ========================
+.qwen/skills/
+.claude/skills/
+.agents/skills/shadcn-ui/
+.iflow/skills/
+.kiro/skills/
+skills/
+skills-lock.json
+
+# ========================
+# Biome
+# ========================
+.biomeignore
+
+# ========================
+# App-specific (apps/web)
+# ========================
+apps/web/.next/
+apps/web/playwright-report/
+apps/web/test-results/
+apps/web/test-results.json
+apps/web/.editorconfig.txt
+apps/web/libs/
+apps/web/out/
+
+# ========================
+# App-specific (apps/desktop)
+# ========================
+apps/desktop/src-tauri/target/
+apps/desktop/dist/
+apps/desktop/out/
+
+# ========================
+# App-specific (apps/obsidian)
+# ========================
+apps/obsidian/dist/
+apps/obsidian/*.zip
+apps/obsidian/main.js
+
+# ========================
+# App-specific (apps/android)
+# ========================
+apps/android/.gradle/
+apps/android/build/
+apps/android/*/build/
+apps/android/local.properties
+apps/android/*.apk
+apps/android/*.aab
+
+# ========================
+# App-specific (apps/docs)
+# ========================
+apps/docs/dist/
+apps/docs/build/
+
+# ========================
+# Packages
+# ========================
+packages/*/dist/
+packages/*/build/
+
+# ========================
+# Docker
+# ========================
+docker-compose.override.yml
+.docker/
+
+# ========================
+# Vercel
+# ========================
+.vercel
+
+# ========================
+# Turbo
+# ========================
+.turbo/
+
+# ========================
+# Blackbox CLI
+# ========================
 .blackboxcli/
+
+# ========================
+# Zone Identifier (Windows)
+# ========================
 *:Zone.Identifier
+
+# ========================
+# Misc
+# ========================
+.husky/
+.eslintcache
+.stylelintcache

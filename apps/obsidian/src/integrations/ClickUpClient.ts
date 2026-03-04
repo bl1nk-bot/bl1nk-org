@@ -1,36 +1,36 @@
-import { Tool } from "../types/tool.types";
+import type { Tool } from "../types/tool.types"
 
 export class ClickUpClient {
   constructor(private apiKey?: string) {}
 
   async execute(tool: Tool, params: Record<string, unknown>): Promise<unknown> {
     if (!this.apiKey) {
-      throw new Error("ClickUp API key not configured");
+      throw new Error("ClickUp API key not configured")
     }
 
-    const toolName = tool.name.toLowerCase();
+    const toolName = tool.name.toLowerCase()
 
     switch (toolName) {
       case "create_task":
-        return this.createTask(params);
+        return this.createTask(params)
       case "list_tasks":
-        return this.listTasks(params);
+        return this.listTasks(params)
       case "update_task":
-        return this.updateTask(params);
+        return this.updateTask(params)
       default:
-        throw new Error(`Unknown ClickUp tool: ${toolName}`);
+        throw new Error(`Unknown ClickUp tool: ${toolName}`)
     }
   }
 
   private async createTask(params: Record<string, unknown>): Promise<unknown> {
-    return { taskId: "new-task-id" };
+    return { taskId: "new-task-id" }
   }
 
   private async listTasks(params: Record<string, unknown>): Promise<unknown> {
-    return { tasks: [] };
+    return { tasks: [] }
   }
 
   private async updateTask(params: Record<string, unknown>): Promise<unknown> {
-    return { updated: true };
+    return { updated: true }
   }
 }

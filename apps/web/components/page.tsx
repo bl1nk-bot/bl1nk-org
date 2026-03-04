@@ -1,25 +1,14 @@
-"use client";
+"use client"
 
-import type { PromptInputMessage } from "@/components/ai-elements/prompt-input";
-import type { BundledLanguage } from "shiki";
-
-import {
-  Checkpoint,
-  CheckpointIcon,
-  CheckpointTrigger,
-} from "@/components/ai-elements/checkpoint";
-import { CodeBlock } from "@/components/ai-elements/code-block";
-import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
-import {
-  FileTree,
-  FileTreeFile,
-  FileTreeFolder,
-} from "@/components/ai-elements/file-tree";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
+import { CheckCircle2Icon, ListTodoIcon } from "lucide-react"
+import { nanoid } from "nanoid"
+import { useCallback, useEffect, useState } from "react"
+import type { BundledLanguage } from "shiki"
+import { Checkpoint, CheckpointIcon, CheckpointTrigger } from "@/components/ai-elements/checkpoint"
+import { CodeBlock } from "@/components/ai-elements/code-block"
+import { Conversation, ConversationContent } from "@/components/ai-elements/conversation"
+import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/ai-elements/file-tree"
+import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message"
 import {
   Plan,
   PlanAction,
@@ -28,13 +17,14 @@ import {
   PlanHeader,
   PlanTitle,
   PlanTrigger,
-} from "@/components/ai-elements/plan";
+} from "@/components/ai-elements/plan"
+import type { PromptInputMessage } from "@/components/ai-elements/prompt-input"
 import {
   PromptInput,
   PromptInputFooter,
   PromptInputSubmit,
   PromptInputTextarea,
-} from "@/components/ai-elements/prompt-input";
+} from "@/components/ai-elements/prompt-input"
 import {
   Queue,
   QueueItem,
@@ -45,37 +35,29 @@ import {
   QueueSectionContent,
   QueueSectionLabel,
   QueueSectionTrigger,
-} from "@/components/ai-elements/queue";
-import {
-  Task,
-  TaskContent,
-  TaskItemFile,
-  TaskTrigger,
-} from "@/components/ai-elements/task";
-import { Terminal, TerminalContent } from "@/components/ai-elements/terminal";
-import { cn } from "@/lib/utils";
-import { CheckCircle2Icon, ListTodoIcon } from "lucide-react";
-import { nanoid } from "nanoid";
-import { useCallback, useEffect, useState } from "react";
+} from "@/components/ai-elements/queue"
+import { Task, TaskContent, TaskItemFile, TaskTrigger } from "@/components/ai-elements/task"
+import { Terminal, TerminalContent } from "@/components/ai-elements/terminal"
+import { cn } from "@/lib/utils"
 
 // Types
 interface MockFile {
-  path: string;
-  name: string;
-  language: BundledLanguage;
-  content: string;
+  path: string
+  name: string
+  language: BundledLanguage
+  content: string
 }
 
 interface MessageType {
-  key: string;
-  from: "user" | "assistant";
-  content: string;
+  key: string
+  from: "user" | "assistant"
+  content: string
 }
 
 interface TaskItem {
-  id: string;
-  title: string;
-  status: "pending" | "in_progress" | "completed";
+  id: string
+  title: string
+  status: "pending" | "in_progress" | "completed"
 }
 
 // Mock file contents
@@ -279,14 +261,14 @@ npm run dev
     name: "README.md",
     path: "README.md",
   },
-];
+]
 
 // Mock tasks
 const initialTasks: TaskItem[] = [
   { id: "1", status: "completed", title: "Refactor Button component" },
   { id: "2", status: "in_progress", title: "Add form validation" },
   { id: "3", status: "pending", title: "Write unit tests" },
-];
+]
 
 // Mock chat messages
 const mockMessages: MessageType[] = [
@@ -308,7 +290,7 @@ The email validation uses a regex pattern to check for valid email format. The f
     from: "assistant",
     key: nanoid(),
   },
-];
+]
 
 // Mock terminal output
 const mockTerminalLines = [
@@ -329,111 +311,103 @@ const mockTerminalLines = [
   " \u001B[32m✓\u001B[0m Input › shows error state",
   "",
   "\u001B[32mAll tests passed!\u001B[0m (5/5)",
-];
+]
 
 const Example = () => {
   // File tree state
-  const [selectedPath, setSelectedPath] = useState<string>("src/app.tsx");
+  const [selectedPath, setSelectedPath] = useState<string>("src/app.tsx")
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(
     new Set(["src", "src/components", "src/utils"])
-  );
+  )
 
   // Code editor state
-  const [currentFile, setCurrentFile] = useState<MockFile>(mockFiles[0]);
+  const [currentFile, setCurrentFile] = useState<MockFile>(mockFiles[0])
 
   // Terminal state
-  const [terminalOutput, setTerminalOutput] = useState<string>("");
-  const [isTerminalStreaming, setIsTerminalStreaming] =
-    useState<boolean>(false);
+  const [terminalOutput, setTerminalOutput] = useState<string>("")
+  const [isTerminalStreaming, setIsTerminalStreaming] = useState<boolean>(false)
 
   // Chat state
-  const [messages, setMessages] = useState<MessageType[]>([]);
-  const [chatText, setChatText] = useState<string>("");
-  const [status, setStatus] = useState<"ready" | "streaming" | "submitted">(
-    "ready"
-  );
+  const [messages, setMessages] = useState<MessageType[]>([])
+  const [chatText, setChatText] = useState<string>("")
+  const [status, setStatus] = useState<"ready" | "streaming" | "submitted">("ready")
 
   // Tasks state
-  const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
+  const [tasks, setTasks] = useState<TaskItem[]>(initialTasks)
 
   // Checkpoint state
-  const [showCheckpoint, setShowCheckpoint] = useState<boolean>(false);
+  const [showCheckpoint, setShowCheckpoint] = useState<boolean>(false)
 
   // Find file by path
   const findFileByPath = (path: string): MockFile | undefined =>
-    mockFiles.find((f) => f.path === path);
+    mockFiles.find((f) => f.path === path)
 
   // Handle file selection
   const handleFileSelect = useCallback((path: string) => {
-    setSelectedPath(path);
-    const file = findFileByPath(path);
+    setSelectedPath(path)
+    const file = findFileByPath(path)
     if (file) {
-      setCurrentFile(file);
+      setCurrentFile(file)
     }
-  }, []);
+  }, [])
 
   // Stream message content word by word
-  const streamContent = useCallback(
-    async (messageKey: string, content: string) => {
-      const words = content.split(" ");
-      let currentContent = "";
+  const streamContent = useCallback(async (messageKey: string, content: string) => {
+    const words = content.split(" ")
+    let currentContent = ""
 
-      for (let i = 0; i < words.length; i += 1) {
-        currentContent += (i > 0 ? " " : "") + words[i];
-        const finalContent = currentContent;
+    for (let i = 0; i < words.length; i += 1) {
+      currentContent += (i > 0 ? " " : "") + words[i]
+      const finalContent = currentContent
 
-        setMessages((prev) =>
-          prev.map((msg) =>
-            msg.key === messageKey ? { ...msg, content: finalContent } : msg
-          )
-        );
+      setMessages((prev) =>
+        prev.map((msg) => (msg.key === messageKey ? { ...msg, content: finalContent } : msg))
+      )
 
-        // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-        await new Promise((resolve) => {
-          setTimeout(resolve, Math.random() * 40 + 20);
-        });
-      }
-    },
-    []
-  );
+      // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
+      await new Promise((resolve) => {
+        setTimeout(resolve, Math.random() * 40 + 20)
+      })
+    }
+  }, [])
 
   // Stream message
   const streamMessage = useCallback(
     async (message: MessageType) => {
       // Generate fresh key to avoid duplicates
-      const newKey = nanoid();
+      const newKey = nanoid()
       if (message.from === "user") {
-        setMessages((prev) => [...prev, { ...message, key: newKey }]);
-        return;
+        setMessages((prev) => [...prev, { ...message, key: newKey }])
+        return
       }
 
       // Add empty assistant message
-      const newMessage = { ...message, content: "", key: newKey };
-      setMessages((prev) => [...prev, newMessage]);
+      const newMessage = { ...message, content: "", key: newKey }
+      setMessages((prev) => [...prev, newMessage])
 
-      setStatus("streaming");
-      await streamContent(message.key, message.content);
-      setStatus("ready");
+      setStatus("streaming")
+      await streamContent(message.key, message.content)
+      setStatus("ready")
     },
     [streamContent]
-  );
+  )
 
   // Stream terminal output line by line
   const streamTerminal = useCallback(async () => {
-    setIsTerminalStreaming(true);
-    let output = "";
+    setIsTerminalStreaming(true)
+    let output = ""
 
     for (const line of mockTerminalLines) {
-      output += `${line}\n`;
-      setTerminalOutput(output);
+      output += `${line}\n`
+      setTerminalOutput(output)
       // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
       await new Promise((resolve) => {
-        setTimeout(resolve, 100);
-      });
+        setTimeout(resolve, 100)
+      })
     }
 
-    setIsTerminalStreaming(false);
-  }, []);
+    setIsTerminalStreaming(false)
+  }, [])
 
   // Animation sequence on mount
   useEffect(() => {
@@ -441,65 +415,63 @@ const Example = () => {
       // Wait a bit before starting
       // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
       await new Promise((resolve) => {
-        setTimeout(resolve, 500);
-      });
+        setTimeout(resolve, 500)
+      })
 
       // Stream first message (user)
-      await streamMessage(mockMessages[0]);
+      await streamMessage(mockMessages[0])
       // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
       await new Promise((resolve) => {
-        setTimeout(resolve, 800);
-      });
+        setTimeout(resolve, 800)
+      })
 
       // Stream second message (assistant)
-      await streamMessage(mockMessages[1]);
+      await streamMessage(mockMessages[1])
       // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
       await new Promise((resolve) => {
-        setTimeout(resolve, 500);
-      });
+        setTimeout(resolve, 500)
+      })
 
       // Update task status
       setTasks((prev) =>
-        prev.map((task) =>
-          task.id === "2" ? { ...task, status: "completed" as const } : task
-        )
-      );
+        prev.map((task) => (task.id === "2" ? { ...task, status: "completed" as const } : task))
+      )
 
       // Stream terminal output
-      await streamTerminal();
+      await streamTerminal()
 
       // Show checkpoint
       // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
       await new Promise((resolve) => {
-        setTimeout(resolve, 300);
-      });
-      setShowCheckpoint(true);
-    };
+        setTimeout(resolve, 300)
+      })
+      setShowCheckpoint(true)
+    }
 
-    runAnimation();
-  }, [streamMessage, streamTerminal]);
+    runAnimation()
+  }, [streamMessage, streamTerminal])
 
   const handleChatTextChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => setChatText(e.target.value),
     []
-  );
+  )
 
   // Handle chat submit
   const handleSubmit = useCallback(
     (message: PromptInputMessage) => {
       if (!message.text.trim()) {
-        return;
+        return
       }
 
       const userMessage: MessageType = {
         content: message.text,
         from: "user",
         key: nanoid(),
-      };
+      }
 
-      setMessages((prev) => [...prev, userMessage]);
-      setChatText("");
-      setStatus("submitted");
+      setMessages((prev) => [...prev, userMessage])
+      setChatText("")
+      setStatus("submitted")
 
       // Simulate AI response
       setTimeout(() => {
@@ -508,15 +480,15 @@ const Example = () => {
             "I'll look into that for you. Let me analyze the codebase and suggest some improvements.",
           from: "assistant",
           key: nanoid(),
-        };
-        streamMessage(assistantMessage);
-      }, 500);
+        }
+        streamMessage(assistantMessage)
+      }, 500)
     },
     [streamMessage]
-  );
+  )
 
-  const completedTasks = tasks.filter((t) => t.status === "completed");
-  const pendingTasks = tasks.filter((t) => t.status !== "completed");
+  const completedTasks = tasks.filter((t) => t.status === "completed")
+  const pendingTasks = tasks.filter((t) => t.status !== "completed")
 
   return (
     <div className="flex h-full w-full bg-background">
@@ -527,19 +499,13 @@ const Example = () => {
             className="border-none"
             expanded={expandedPaths}
             onExpandedChange={setExpandedPaths}
-            onSelect={handleFileSelect}
+            onFileSelect={handleFileSelect}
             selectedPath={selectedPath}
           >
             <FileTreeFolder name="src" path="src">
               <FileTreeFolder name="components" path="src/components">
-                <FileTreeFile
-                  name="button.tsx"
-                  path="src/components/button.tsx"
-                />
-                <FileTreeFile
-                  name="input.tsx"
-                  path="src/components/input.tsx"
-                />
+                <FileTreeFile name="button.tsx" path="src/components/button.tsx" />
+                <FileTreeFile name="input.tsx" path="src/components/input.tsx" />
               </FileTreeFolder>
               <FileTreeFolder name="utils" path="src/utils">
                 <FileTreeFile name="helpers.ts" path="src/utils/helpers.ts" />
@@ -635,9 +601,7 @@ const Example = () => {
                     <QueueItem key={task.id}>
                       <div className="flex items-center gap-2">
                         <QueueItemIndicator completed />
-                        <QueueItemContent completed>
-                          {task.title}
-                        </QueueItemContent>
+                        <QueueItemContent completed>{task.title}</QueueItemContent>
                       </div>
                     </QueueItem>
                   ))}
@@ -655,9 +619,7 @@ const Example = () => {
                 <Message from={message.from} key={message.key}>
                   <MessageContent
                     className={cn(
-                      message.from === "user"
-                        ? "rounded-lg bg-secondary px-3 py-2"
-                        : ""
+                      message.from === "user" ? "rounded-lg bg-secondary px-3 py-2" : ""
                     )}
                   >
                     {message.from === "assistant" ? (
@@ -699,7 +661,7 @@ const Example = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Example;
+export default Example
