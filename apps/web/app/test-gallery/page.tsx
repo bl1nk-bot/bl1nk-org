@@ -455,7 +455,7 @@ export default function TestGallery() {
             </CardHeader>
             <CardContent>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px]" aria-label="Select a fruit">
                   <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -474,7 +474,7 @@ export default function TestGallery() {
               <CardTitle>Textarea</CardTitle>
             </CardHeader>
             <CardContent>
-              <Textarea placeholder="Type your message here." />
+              <Textarea placeholder="Type your message here." aria-label="Message" />
             </CardContent>
           </Card>
 
