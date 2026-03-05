@@ -21,9 +21,8 @@ test.describe("AI Elements Gallery", () => {
   test("Checkpoint component should show status and trigger", async ({ page }) => {
     const section = page.locator("#checkpoint-section")
     await expect(section.getByText("Checkpoint saved")).toBeVisible()
-    await section.getByRole("button").hover()
-    // Tooltip might be in portal
-    await expect(page.getByRole("tooltip").or(page.getByText("2 minutes ago"))).toBeVisible()
+    const trigger = section.getByRole("button", { name: "Checkpoint saved" })
+    await expect(trigger).toHaveAttribute("title", "2 minutes ago")
   })
 
   test("Conversation & Message components should render correctly", async ({ page }) => {
