@@ -130,7 +130,7 @@ export default function TestGallery() {
               <Button variant="link">Link</Button>
               <Button size="sm">Small</Button>
               <Button size="lg">Large</Button>
-              <Button size="icon"><Mail /></Button>
+              <Button size="icon" aria-label="Send mail"><Mail /></Button>
               <Button disabled><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading</Button>
             </CardContent>
           </Card>
@@ -512,7 +512,7 @@ export default function TestGallery() {
             <CardContent className="space-y-4">
               <InputGroup>
                 <Input placeholder="Search..." />
-                <Button size="icon"><Search className="h-4 w-4" /></Button>
+                <Button size="icon" aria-label="Search"><Search className="h-4 w-4" /></Button>
               </InputGroup>
               <InputGroup>
                 <div className="flex items-center justify-center bg-muted px-3 border border-r-0 rounded-l-md">
