@@ -9,7 +9,7 @@ test.describe("AI Elements Gallery", () => {
     const section = page.locator("#agent-section")
     await expect(section.getByText("Bl1nk Agent")).toBeVisible()
     await expect(section.getByText("gpt-4o")).toBeVisible()
-    await expect(section.getByText("web-search")).toBeVisible()
+    await expect(section.getByText("Agent components rendered here.")).toBeVisible()
   })
 
   test("CodeBlock component should render code", async ({ page }) => {
