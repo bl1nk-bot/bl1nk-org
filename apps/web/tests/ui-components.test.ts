@@ -1,287 +1,298 @@
 /**
- * UI Components Tests for bl1nk-web
- * Tests for shadcn/ui components and custom components
+ * UI Components Gallery Tests
+ *
+ * Tests for shadcn/ui components in the test gallery.
+ * Validates rendering, interactivity, and visual appearance.
+ *
+ * @module ui-components-test
  */
 
-import { test, expect, type Page } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
-// ============================================================================
-// Button Component Tests
-// ============================================================================
-
-test.describe("Button Component", () => {
-  test("should render default button", async ({ page }) => {
-    await page.setContent(`
-      <html>
-        <body>
-          <div id="root"></div>
-          <script type="module">
-            import { render } from 'react-dom/client'
-            import { Button } from './components/ui/button.tsx'
-            render(<Button>Click Me</Button>, document.getElementById('root'))
-          </script>
-        </body>
-      </html>
-    `)
-
-    const button = page.getByRole("button", { name: "Click Me" })
-    await expect(button).toBeVisible()
+/**
+ * UI Components Gallery Test Suite
+ *
+ * Tests all UI components for:
+ * - Visual rendering
+ * - Interactive behavior
+ * - Accessibility features
+ */
+test.describe("UI Components Gallery", () => {
+  /**
+   * Navigate to test gallery before each test
+   */
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/test-gallery")
   })
 
-  test("should render button variants", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    // Check for default button styles
-    const buttons = page.locator("button")
-    await expect(buttons.first()).toHaveClass(/inline-flex/)
+  /**
+   * Test: Button component variants and sizes
+   * Verifies all button variants (default, secondary, destructive, outline, ghost, link)
+   * and sizes (sm, default, lg, icon)
+   */
+  test("Button component should render all variants and sizes", async ({ page }) => {
+    const section = page.locator("#button-section")
+    await expect(section.getByRole("button", { name: "Default" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Secondary" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Destructive" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Outline" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Ghost" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Link" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Small" })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Large" })).toBeVisible()
+    await expect(section.locator("button").filter({ has: page.locator("svg") })).toBeVisible()
+    await expect(section.getByRole("button", { name: "Loading" })).toBeDisabled()
   })
 
-  test("should render icon button", async ({ page }) => {
-    // Icon buttons should have size-4 class for icons
-    await page.goto("http://localhost:3000")
-    const iconButtons = page.locator("button").filter({ has: page.locator("svg") })
-    await expect(iconButtons.first()).toBeVisible()
-  })
-})
-
-// ============================================================================
-// Card Component Tests
-// ============================================================================
-
-test.describe("Card Component", () => {
-  test("should render card with header and content", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const cards = page.locator('[class*="rounded-xl border bg-card"]')
-    if (await cards.count() > 0) {
-      await expect(cards.first()).toBeVisible()
-    }
+  /**
+   * Test: Card component structure
+   * Verifies card header, content, and footer rendering
+   */
+  test("Card component should render correctly", async ({ page }) => {
+    const section = page.locator("#card-section")
+    await expect(section.getByText("Card Title")).toBeVisible()
+    await expect(section.getByText("Card Description")).toBeVisible()
+    await expect(section.getByText("Card Content")).toBeVisible()
+    await expect(section.getByText("Card Footer")).toBeVisible()
   })
 
-  test("card should have proper shadow", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    const card = page.locator('[class*="rounded-xl border"]')
-    if (await card.count() > 0) {
-      const boxShadow = await card.evaluate((el) => 
-        window.getComputedStyle(el).boxShadow
-      )
-      expect(boxShadow).toBeTruthy()
-    }
-  })
-})
-
-// ============================================================================
-// Dialog Component Tests
-// ============================================================================
-
-test.describe("Dialog Component", () => {
-  test("should open dialog when trigger clicked", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    // Look for dialog triggers
-    const dialogTriggers = page.locator('[data-state="open"], button[class*="dialog"]')
-    if (await dialogTriggers.count() > 0) {
-      await dialogTriggers.first().click()
-      await expect(page.locator('[role="dialog"]')).toBeVisible()
-    }
+  /**
+   * Test: Dialog component interaction
+   * Verifies dialog opens on trigger and closes on escape
+   */
+  test("Dialog component should open and close", async ({ page }) => {
+    const section = page.locator("#dialog-section")
+    await section.getByRole("button", { name: "Open Dialog" }).click()
+    await expect(page.getByRole("dialog")).toBeVisible()
+    await expect(page.getByText("Are you absolutely sure?")).toBeVisible()
+    // Click close button or press escape
+    await page.keyboard.press("Escape")
+    await expect(page.getByRole("dialog")).not.toBeVisible()
   })
 
-  test("dialog should have overlay", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    const overlays = page.locator('[class*="fixed inset-0"]')
-    if (await overlays.count() > 0) {
-      await expect(overlays.first()).toBeVisible()
-    }
-  })
-})
-
-// ============================================================================
-// Input Component Tests
-// ============================================================================
-
-test.describe("Input Component", () => {
-  test("should render input field", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const inputs = page.locator("input[type='text'], input[type='email']")
-    if (await inputs.count() > 0) {
-      await expect(inputs.first()).toBeVisible()
-    }
+  /**
+   * Test: Input component interactivity
+   * Verifies input field with label and disabled state
+   */
+  test("Input component should be interactive", async ({ page }) => {
+    const section = page.locator("#input-section")
+    const input = section.getByLabel("Email")
+    await expect(input).toBeVisible()
+    await input.fill("test@example.com")
+    await expect(input).toHaveValue("test@example.com")
+    await expect(section.getByPlaceholder("Disabled Input")).toBeDisabled()
   })
 
-  test("input should have focus ring", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    const input = page.locator("input").first()
-    if (await input.count() > 0) {
-      await input.focus()
-      const className = await input.getAttribute("class")
-      expect(className).toContain("focus-visible:ring")
-    }
-  })
-})
-
-// ============================================================================
-// Skeleton Component Tests
-// ============================================================================
-
-test.describe("Skeleton Component", () => {
-  test("should render skeleton with animation", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const skeletons = page.locator('[class*="animate-pulse"]')
-    if (await skeletons.count() > 0) {
-      await expect(skeletons.first()).toBeVisible()
-      
-      // Check for pulse animation
-      const animationName = await skeletons.first().evaluate((el) =>
-        window.getComputedStyle(el).animationName
-      )
-      expect(animationName).toContain("pulse")
-    }
-  })
-})
-
-// ============================================================================
-// Toast/Sonner Component Tests
-// ============================================================================
-
-test.describe("Toast Component", () => {
-  test("should have toaster container", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    // Sonner creates a toast container
-    const toaster = page.locator('[class*="toaster"], [data-sonner-toaster]')
-    if (await toaster.count() > 0) {
-      await expect(toaster.first()).toBeVisible()
-    }
-  })
-})
-
-// ============================================================================
-// Tabs Component Tests
-// ============================================================================
-
-test.describe("Tabs Component", () => {
-  test("should render tabs list and triggers", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const tabsLists = page.locator('[role="tablist"]')
-    if (await tabsLists.count() > 0) {
-      await expect(tabsLists.first()).toBeVisible()
-      
-      const tabs = tabsLists.first().locator('[role="tab"]')
-      await expect(tabs.first()).toBeVisible()
-    }
+  /**
+   * Test: Skeleton component loading state
+   * Verifies skeleton animation placeholders render
+   */
+  test("Skeleton component should render", async ({ page }) => {
+    const section = page.locator("#skeleton-section")
+    await expect(section.locator(".animate-pulse")).toHaveCount(3)
   })
 
-  test("should switch tabs when clicked", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const tabsList = page.locator('[role="tablist"]').first()
-    if (await tabsList.count() > 0) {
-      const tabs = tabsList.locator('[role="tab"]')
-      if (await tabs.count() > 1) {
-        await tabs.nth(1).click()
-        await expect(tabs.nth(1)).toHaveAttribute("data-state", "active")
-      }
-    }
-  })
-})
+  /**
+   * Test: Sonner (Toast) notifications
+   * Verifies toast notifications display correctly
+   */
+  test("Sonner (Toast) should show notifications", async ({ page }) => {
+    const section = page.locator("#sonner-section")
+    await section.getByRole("button", { name: "Default Toast" }).click()
+    await expect(page.locator("[data-sonner-toast]").getByText("Event has been created")).toBeVisible()
 
-// ============================================================================
-// Avatar Component Tests
-// ============================================================================
-
-test.describe("Avatar Component", () => {
-  test("should render avatar with image", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const avatars = page.locator('[class*="rounded-full overflow-hidden"]')
-    if (await avatars.count() > 0) {
-      await expect(avatars.first()).toBeVisible()
-    }
+    await section.getByRole("button", { name: "Success Toast" }).click()
+    await expect(page.locator("[data-sonner-toast]").getByText("Success!")).toBeVisible()
   })
 
-  test("avatar should have fallback", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    // Look for avatar fallbacks (usually initials)
-    const fallbacks = page.locator('[class*="bg-muted"], [class*="rounded-full"]').filter({ hasText: /^[A-Z]{1,3}$/ })
-    if (await fallbacks.count() > 0) {
-      await expect(fallbacks.first()).toBeVisible()
-    }
-  })
-})
-
-// ============================================================================
-// Breadcrumb Component Tests
-// ============================================================================
-
-test.describe("Breadcrumb Component", () => {
-  test("should render breadcrumb navigation", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const breadcrumbs = page.locator("nav[aria-label='breadcrumb'], ol[class*='flex']")
-    if (await breadcrumbs.count() > 0) {
-      await expect(breadcrumbs.first()).toBeVisible()
-    }
+  /**
+   * Test: Tabs component switching
+   * Verifies tab content switches on selection
+   */
+  test("Tabs component should switch content", async ({ page }) => {
+    const section = page.locator("#tabs-section")
+    await expect(section.getByText("Make changes to your account here.")).toBeVisible()
+    await section.getByRole("tab", { name: "Password" }).click()
+    await expect(section.getByText("Change your password here.")).toBeVisible()
   })
 
-  test("breadcrumb should have separator", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    // Chevron or separator
-    const separators = page.locator("svg").filter({ has: page.locator('[class*="chevron"]') })
-    if (await separators.count() > 0) {
-      await expect(separators.first()).toBeVisible()
-    }
-  })
-})
-
-// ============================================================================
-// ScrollArea Component Tests
-// ============================================================================
-
-test.describe("ScrollArea Component", () => {
-  test("should render scrollable area", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const scrollAreas = page.locator('[class*="overflow-auto"], [class*="overflow-hidden"]')
-    if (await scrollAreas.count() > 0) {
-      await expect(scrollAreas.first()).toBeVisible()
-    }
+  /**
+   * Test: Avatar component images and fallbacks
+   * Verifies avatar displays image or fallback initials
+   */
+  test("Avatar component should render images and fallbacks", async ({ page }) => {
+    const section = page.locator("#avatar-section")
+    // Wait for image or fallback
+    await expect(section.locator("img").or(section.getByText("JD"))).toBeVisible()
   })
 
-  test("scroll area should have scrollbar", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const scrollbars = page.locator('[class*="scrollbar"]')
-    if (await scrollbars.count() > 0) {
-      await expect(scrollbars.first()).toBeVisible()
-    }
-  })
-})
-
-// ============================================================================
-// Separator Component Tests
-// ============================================================================
-
-test.describe("Separator Component", () => {
-  test("should render horizontal separator", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const separators = page.locator('[class*="h-[1px] w-full"], [class*="shrink-0 bg-border"]')
-    if (await separators.count() > 0) {
-      await expect(separators.first()).toBeVisible()
-    }
+  /**
+   * Test: Breadcrumb component navigation
+   * Verifies breadcrumb links and separators render
+   */
+  test("Breadcrumb component should render navigation", async ({ page }) => {
+    const section = page.locator("#breadcrumb-section")
+    await expect(section.getByRole("link", { name: "Home" })).toBeVisible()
+    await expect(section.getByRole("link", { name: "Docs" })).toBeVisible()
+    await expect(section.getByText("Breadcrumb")).toBeVisible()
   })
 
-  test("should render vertical separator", async ({ page }) => {
-    await page.goto("http://localhost:3000")
-    
-    const verticalSeparators = page.locator('[class*="h-full w-[1px]"]')
-    if (await verticalSeparators.count() > 0) {
-      await expect(verticalSeparators.first()).toBeVisible()
-    }
+  /**
+   * Test: ScrollArea component viewport
+   * Verifies scrollable area with custom scrollbar
+   */
+  test("ScrollArea component should be visible", async ({ page }) => {
+    const section = page.locator("#scroll-area-section")
+    await expect(section.locator("div[data-radix-scroll-area-viewport]")).toBeVisible()
+  })
+
+  /**
+   * Test: Separator component dividers
+   * Verifies horizontal and vertical separators render
+   */
+  test("Separator component should render dividers", async ({ page }) => {
+    const section = page.locator("#separator-section")
+    await expect(section.locator('[role="none"]')).toHaveCount(3) // 1 horizontal, 2 vertical
+  })
+
+  /**
+   * Test: Accordion component expansion
+   * Verifies accordion expands and collapses content
+   */
+  test("Accordion component should expand and collapse", async ({ page }) => {
+    const section = page.locator("#accordion-section")
+    await section.getByRole("button", { name: "Is it accessible?" }).click()
+    await expect(section.getByText("Yes. It adheres to the WAI-ARIA design pattern.")).toBeVisible()
+  })
+
+  /**
+   * Test: Alert component variants
+   * Verifies default and destructive alert styles
+   */
+  test("Alert component should show variants", async ({ page }) => {
+    const section = page.locator("#alert-section")
+    await expect(section.getByText("Heads up!")).toBeVisible()
+    await expect(section.getByText("Error")).toBeVisible()
+  })
+
+  /**
+   * Test: Badge component variants
+   * Verifies all badge style variants render
+   */
+  test("Badge component should show variants", async ({ page }) => {
+    const section = page.locator("#badge-section")
+    await expect(section.getByText("Badge", { exact: true })).toBeVisible()
+    await expect(section.getByText("Secondary")).toBeVisible()
+    await expect(section.getByText("Outline")).toBeVisible()
+    await expect(section.getByText("Destructive")).toBeVisible()
+  })
+
+  /**
+   * Test: Collapsible component toggle
+   * Verifies collapsible content shows/hides on trigger
+   */
+  test("Collapsible component should open and close", async ({ page }) => {
+    const section = page.locator("#collapsible-section")
+    const content = section.getByText("@radix-ui/primitives")
+    // It might be hidden but in DOM
+    await section.getByRole("button").click()
+    await expect(content).toBeVisible()
+  })
+
+  /**
+   * Test: Command component search
+   * Verifies command input and suggestion list
+   */
+  test("Command component should show results", async ({ page }) => {
+    const section = page.locator("#command-section")
+    await expect(section.getByPlaceholder("Type a command or search...")).toBeVisible()
+    await expect(section.getByText("Suggestions")).toBeVisible()
+    await expect(section.getByText("Calendar")).toBeVisible()
+  })
+
+  /**
+   * Test: Dropdown Menu interaction
+   * Verifies menu opens and displays items
+   */
+  test("Dropdown Menu should open items", async ({ page }) => {
+    const section = page.locator("#dropdown-menu-section")
+    await section.getByRole("button", { name: "Open Menu" }).click()
+    await expect(page.getByRole("menuitem", { name: "Profile" })).toBeVisible()
+  })
+
+  /**
+   * Test: Hover Card interaction
+   * Verifies card shows content on hover
+   */
+  test("Hover Card should show content on hover", async ({ page }) => {
+    const section = page.locator("#hover-card-section")
+    await section.getByText("@nextjs").hover()
+    await expect(page.getByText("The React Framework – created and maintained by @vercel.")).toBeVisible()
+  })
+
+  /**
+   * Test: Select component options
+   * Verifies select dropdown with options
+   */
+  test("Select component should allow selecting options", async ({ page }) => {
+    const section = page.locator("#select-section")
+    await section.getByRole("combobox").click()
+    const option = page.getByRole("option", { name: "Apple" })
+    await expect(option).toBeVisible()
+    await page.getByRole("option", { name: "Banana" }).click()
+    await expect(section.getByText("Banana")).toBeVisible()
+  })
+
+  /**
+   * Test: Textarea component input
+   * Verifies textarea accepts multi-line input
+   */
+  test("Textarea should take input", async ({ page }) => {
+    const section = page.locator("#textarea-section")
+    const textarea = section.locator("textarea")
+    await textarea.fill("Hello World")
+    await expect(textarea).toHaveValue("Hello World")
+  })
+
+  /**
+   * Test: Tooltip component hover
+   * Verifies tooltip shows on hover
+   */
+  test("Tooltip should show on hover", async ({ page }) => {
+    const section = page.locator("#tooltip-section")
+    await section.getByRole("button", { name: "Hover" }).hover()
+    // Tooltips are often in portals
+    await expect(page.getByRole("tooltip").or(page.getByText("Add to library"))).toBeVisible()
+  })
+
+  /**
+   * Test: Progress component visualization
+   * Verifies progress bar renders with value
+   */
+  test("Progress component should render", async ({ page }) => {
+    const section = page.locator("#progress-section")
+    const progress = section.locator('[role="progressbar"]')
+    await expect(progress).toBeVisible()
+  })
+
+  /**
+   * Test: Input Group with icons/buttons
+   * Verifies input group with addon icons and buttons
+   */
+  test("Input Group should render with icons/buttons", async ({ page }) => {
+    const section = page.locator("#input-group-section")
+    await expect(section.locator("button").filter({ has: page.locator(".lucide-search") })).toBeVisible()
+    await expect(section.locator(".lucide-user")).toBeVisible()
+  })
+
+  /**
+   * Test: Sidebar component navigation
+   * Verifies sidebar menu items render
+   */
+  test("Sidebar should render", async ({ page }) => {
+    const section = page.locator("#sidebar-section")
+    await expect(section.getByText("Home")).toBeVisible()
+    await expect(section.getByText("Inbox")).toBeVisible()
+    await expect(section.getByText("Calendar")).toBeVisible()
   })
 })

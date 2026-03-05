@@ -1,0 +1,152 @@
+{
+  // markdownlint-cli2 configuration
+  // See: https://github.com/DavidAnson/markdownlint-cli2
+
+  // Glob expressions for files to ignore
+  "glob": [
+    "!**/node_modules/**",
+    "!**/skills/**/references/**",
+    "!**/.agents/skills/**/references/**",
+    "!**/.iflow/skills/**/references/**",
+    "!**/.kiro/skills/**/references/**",
+    "!**/.qwen/skills/**/references/**",
+    "!**/.gemini_security/**",
+    "!**/apps/docs/node_modules/**",
+    "!**/apps/docs/astro-app/node_modules/**"
+  ],
+
+  // Additional paths to include (relative to config file)
+  "fix": false,
+
+  // markdownlint configuration
+  "config": {
+    // Default state for all rules
+    "default": true,
+
+    // MD001 - Heading levels should only increment by one level at a time
+    "MD001": true,
+
+    // MD003 - Heading style
+    "MD003": {
+      "style": "atx"
+    },
+
+    // MD004 - Unordered list style
+    "MD004": {
+      "style": "dash"
+    },
+
+    // MD007 - Unordered list indentation
+    "MD007": {
+      "indent": 2,
+      "start_indented": false
+    },
+
+    // MD012 - Multiple consecutive blank lines
+    "MD012": {
+      "maximum": 1
+    },
+
+    // MD013 - Line length
+    "MD013": {
+      "line_length": 120,
+      "code_blocks": false,
+      "tables": false,
+      "headings": false
+    },
+
+    // MD022 - Headings should be surrounded by blank lines
+    "MD022": {
+      "lines_above": 1,
+      "lines_below": 1
+    },
+
+    // MD024 - Multiple headings with the same content
+    "MD024": {
+      "siblings_only": true
+    },
+
+    // MD025 - Multiple top-level headings
+    "MD025": {
+      "level": 1,
+      "front_matter_title": "^\\s*title\\s*[:=]"
+    },
+
+    // MD026 - Trailing punctuation in heading
+    "MD026": {
+      "punctuation": ".,;:!"
+    },
+
+    // MD029 - Ordered list item prefix
+    "MD029": {
+      "style": "one"
+    },
+
+    // MD033 - Inline HTML
+    "MD033": {
+      "allowed_elements": [
+        "br",
+        "details",
+        "summary",
+        "kbd",
+        "code",
+        "sup",
+        "sub"
+      ]
+    },
+
+    // MD034 - Bare URL used
+    "MD034": true,
+
+    // MD035 - Horizontal rule style
+    "MD035": {
+      "style": "---"
+    },
+
+    // MD036 - Emphasis used instead of a heading
+    "MD036": {
+      "punctuation": ".,;:!?\"'"
+    },
+
+    // MD041 - First line in file should be a top level heading
+    "MD041": false,
+
+    // MD045 - Images should have alternate text (alt text)
+    "MD045": true,
+
+    // MD046 - Code block style
+    "MD046": {
+      "style": "fenced"
+    },
+
+    // MD047 - Each file should end with a single newline character
+    "MD047": true,
+
+    // MD048 - Code fence style
+    "MD048": {
+      "style": "backtick"
+    },
+
+    // MD049 - Emphasis style
+    "MD049": {
+      "style": "asterisk"
+    },
+
+    // MD050 - Strong style
+    "MD050": {
+      "style": "asterisk"
+    },
+
+    // MD051 - Link fragments should be valid
+    "MD051": false,
+
+    // MD052 - Reference links and images should use a label that is defined
+    "MD052": true,
+
+    // MD053 - Link and image reference definitions should be needed
+    "MD053": true
+  },
+
+  // Custom rules (optional)
+  "customRules": []
+}
