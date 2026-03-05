@@ -375,7 +375,7 @@ export default function TestGallery() {
                     @peduarte starred 3 repositories
                   </h4>
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-9 p-0">
+                    <Button variant="ghost" size="sm" className="w-9 p-0" aria-label="Toggle repositories">
                       <Search className="h-4 w-4" />
                     </Button>
                   </CollapsibleTrigger>
@@ -734,7 +734,7 @@ export default function TestGallery() {
               <CardTitle>Canvas</CardTitle>
             </CardHeader>
             <CardContent>
-              <Canvas className="h-[300px] border rounded-md">
+              <Canvas className="h-[300px] border rounded-md" data-testid="canvas-area">
                 <div className="text-muted-foreground text-sm p-4">
                   Canvas area for workflow nodes and edges
                 </div>
@@ -752,6 +752,7 @@ export default function TestGallery() {
                 <Edge
                   source={{ x: 50, y: 50 }}
                   target={{ x: 250, y: 50 }}
+                  data-testid="edge-connection"
                 />
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-muted-foreground">
                   Edge connection

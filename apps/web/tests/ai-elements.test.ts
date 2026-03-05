@@ -71,9 +71,9 @@ test.describe("AI Elements Gallery", () => {
     await expect(section).toBeVisible()
     await expect(section.getByText("Canvas")).toBeVisible()
     
-    // Assert canvas element is visible
-    const canvas = section.locator("canvas, [class*='canvas']")
-    await expect(canvas.first()).toBeVisible()
+    // Assert canvas element is visible using specific test id
+    const canvas = section.getByTestId("canvas-area")
+    await expect(canvas).toBeVisible()
     
     // Assert example text is present
     await expect(section.getByText("Canvas area for workflow")).toBeVisible()
@@ -87,9 +87,9 @@ test.describe("AI Elements Gallery", () => {
     // Assert edge label/connection text is visible
     await expect(section.getByText("Edge connection")).toBeVisible()
     
-    // Assert SVG edge element exists
-    const edge = section.locator("svg, [class*='edge']")
-    await expect(edge.first()).toBeVisible()
+    // Assert SVG edge element exists using specific test id
+    const edge = section.getByTestId("edge-connection")
+    await expect(edge).toBeVisible()
   })
 
   test("Node component should render node with title and content", async ({ page }) => {
@@ -100,8 +100,8 @@ test.describe("AI Elements Gallery", () => {
     // Assert node title is visible
     await expect(section.getByText("Process Data")).toBeVisible()
     
-    // Assert node content is visible
-    await expect(section.getByText("Transform and validate")).toBeVisible()
+    // Assert node content is visible (explicit partial match)
+    await expect(section.getByText("Transform and validate", { exact: false })).toBeVisible()
     
     // Assert node has child controls
     const node = section.locator("[class*='node'], [class*='card']")
