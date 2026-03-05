@@ -648,7 +648,7 @@ export default function TestGallery() {
               <CardTitle>FileTree</CardTitle>
             </CardHeader>
             <CardContent>
-              <FileTree defaultExpanded={new Set(["src"])}>
+              <FileTree expanded={new Set(["src"])}>
                 <FileTreeFolder name="src" path="src">
                   <FileTreeFile name="index.ts" path="src/index.ts" />
                 </FileTreeFolder>
