@@ -97,6 +97,9 @@ import { Queue, QueueItem, QueueList, QueueSection, QueueSectionLabel, QueueSect
 import { Task, TaskTrigger, TaskContent } from "@/components/ai-elements/task"
 import { Terminal, TerminalContent } from "@/components/ai-elements/terminal"
 import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from "@/components/ai-elements/prompt-input"
+import { Canvas } from "@/components/ai-elements/canvas"
+import { Edge } from "@/components/ai-elements/edge"
+import { Node, NodeHeader, NodeTitle, NodeContent } from "@/components/ai-elements/node"
 
 import { Loader2, Mail, Search, User, Settings, Home, Inbox, Calendar } from "lucide-react"
 
@@ -722,6 +725,57 @@ export default function TestGallery() {
                   <PromptInputSubmit />
                 </PromptInputFooter>
               </PromptInput>
+            </CardContent>
+          </Card>
+
+          {/* Canvas */}
+          <Card id="canvas-section" className="col-span-1 md:col-span-2">
+            <CardHeader>
+              <CardTitle>Canvas</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Canvas className="h-[300px] border rounded-md">
+                <div className="text-muted-foreground text-sm p-4">
+                  Canvas area for workflow nodes and edges
+                </div>
+              </Canvas>
+            </CardContent>
+          </Card>
+
+          {/* Edge */}
+          <Card id="edge-section">
+            <CardHeader>
+              <CardTitle>Edge</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="relative h-[100px] border rounded-md">
+                <Edge
+                  source={{ x: 50, y: 50 }}
+                  target={{ x: 250, y: 50 }}
+                />
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                  Edge connection
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Node */}
+          <Card id="node-section">
+            <CardHeader>
+              <CardTitle>Node</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Node title="Workflow Node" className="relative">
+                <NodeHeader>
+                  <NodeTitle>Process Data</NodeTitle>
+                </NodeHeader>
+                <NodeContent>
+                  <p className="text-sm text-muted-foreground">
+                    Transform and validate input data
+                  </p>
+                </NodeContent>
+              </Node>
             </CardContent>
           </Card>
         </div>
