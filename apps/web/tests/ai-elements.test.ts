@@ -1,5 +1,4 @@
-import { test, expect } from "@playwright/test"
-import AxeBuilder from "@axe-core/playwright"
+import { test, expect } from "./fixtures"
 
 test.describe("AI Elements Gallery", () => {
   test.beforeEach(async ({ page }) => {
@@ -109,49 +108,49 @@ test.describe("AI Elements Gallery", () => {
     await expect(node.first()).toBeVisible()
   })
 
-  test("should not have accessibility violations on AI elements", async ({ page }) => {
+  test("should not have accessibility violations on AI elements", async ({ page, makeAxeBuilder }) => {
     // Test agent section
-    const agentResults = await new AxeBuilder({ page })
+    const agentResults = await makeAxeBuilder()
       .include("#agent-section")
       .analyze()
     expect(agentResults.violations).toEqual([])
 
     // Test codeblock section
-    const codeblockResults = await new AxeBuilder({ page })
+    const codeblockResults = await makeAxeBuilder()
       .include("#codeblock-section")
       .analyze()
     expect(codeblockResults.violations).toEqual([])
 
     // Test button section (icon-only buttons with aria-labels)
-    const buttonResults = await new AxeBuilder({ page })
+    const buttonResults = await makeAxeBuilder()
       .include("#button-section")
       .analyze()
     expect(buttonResults.violations).toEqual([])
   })
 
-  test("should not have accessibility violations on forms and inputs", async ({ page }) => {
+  test("should not have accessibility violations on forms and inputs", async ({ page, makeAxeBuilder }) => {
     // Test input section
-    const inputResults = await new AxeBuilder({ page })
+    const inputResults = await makeAxeBuilder()
       .include("#input-section")
       .analyze()
     expect(inputResults.violations).toEqual([])
 
     // Test promptinput section
-    const promptInputResults = await new AxeBuilder({ page })
+    const promptInputResults = await makeAxeBuilder()
       .include("#promptinput-section")
       .analyze()
     expect(promptInputResults.violations).toEqual([])
   })
 
-  test("should not have accessibility violations on navigation components", async ({ page }) => {
+  test("should not have accessibility violations on navigation components", async ({ page, makeAxeBuilder }) => {
     // Test breadcrumb section
-    const breadcrumbResults = await new AxeBuilder({ page })
+    const breadcrumbResults = await makeAxeBuilder()
       .include("#breadcrumb-section")
       .analyze()
     expect(breadcrumbResults.violations).toEqual([])
 
     // Test tabs section
-    const tabsResults = await new AxeBuilder({ page })
+    const tabsResults = await makeAxeBuilder()
       .include("#tabs-section")
       .analyze()
     expect(tabsResults.violations).toEqual([])
