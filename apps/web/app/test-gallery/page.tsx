@@ -99,9 +99,9 @@ import { Terminal, TerminalContent } from "@/components/ai-elements/terminal"
 import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from "@/components/ai-elements/prompt-input"
 import { Canvas } from "@/components/ai-elements/canvas"
 import { Edge } from "@/components/ai-elements/edge"
-import { Node, NodeHeader, NodeTitle, NodeDescription, NodeContent, NodeFooter } from "@/components/ai-elements/node"
+import { Node, NodeHeader, NodeTitle, NodeContent } from "@/components/ai-elements/node"
 
-import { Loader2, Mail, Search, User, Settings, Home, Inbox, Calendar, Activity } from "lucide-react"
+import { Loader2, Mail, Search, User, Settings, Home, Inbox, Calendar } from "lucide-react"
 
 export default function TestGallery() {
   const [progress, setProgress] = React.useState(13)
@@ -375,7 +375,7 @@ export default function TestGallery() {
                     @peduarte starred 3 repositories
                   </h4>
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-9 p-0" aria-label="Search">
+                    <Button variant="ghost" size="sm" className="w-9 p-0" aria-label="Toggle repositories">
                       <Search className="h-4 w-4" />
                     </Button>
                   </CollapsibleTrigger>
@@ -455,7 +455,7 @@ export default function TestGallery() {
             </CardHeader>
             <CardContent>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px]" aria-label="Select a fruit">
                   <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -474,7 +474,7 @@ export default function TestGallery() {
               <CardTitle>Textarea</CardTitle>
             </CardHeader>
             <CardContent>
-              <Textarea placeholder="Type your message here." />
+              <Textarea placeholder="Type your message here." aria-label="Message" />
             </CardContent>
           </Card>
 
@@ -689,7 +689,7 @@ export default function TestGallery() {
               <Queue>
                 <QueueSection defaultOpen>
                   <QueueSectionTrigger>
-                    <QueueSectionLabel label="In Progress" count={1} icon={<Activity className="size-4" />} />
+                    <QueueSectionLabel label="In Progress" count={1} />
                   </QueueSectionTrigger>
                   <QueueSectionContent>
                     <QueueList>
@@ -729,23 +729,15 @@ export default function TestGallery() {
           </Card>
 
           {/* Canvas */}
-          <Card id="canvas-section" className="col-span-1 md:col-span-2 lg:col-span-3">
+          <Card id="canvas-section" className="col-span-1 md:col-span-2">
             <CardHeader>
               <CardTitle>Canvas</CardTitle>
             </CardHeader>
-            <CardContent className="h-[400px] border rounded-md bg-muted/20 overflow-hidden relative">
-              <Canvas>
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                  Interactive Canvas Workspace
+            <CardContent>
+              <Canvas className="h-[300px] border rounded-md" data-testid="canvas-area">
+                <div className="text-muted-foreground text-sm p-4">
+                  Canvas area for workflow nodes and edges
                 </div>
-                <Node title="Source Node" icon={<Activity className="size-4" />} className="top-10 left-10">
-                  <NodeContent>Data source component</NodeContent>
-                </Node>
-                <Node title="Process Node" icon={<Activity className="size-4" />} className="top-40 left-60">
-                  <NodeContent>Processing logic</NodeContent>
-                </Node>
-                <Edge source={{ x: 150, y: 80 }} target={{ x: 240, y: 180 }} />
-                <Edge.Animated source={{ x: 300, y: 220 }} target={{ x: 500, y: 300 }} />
               </Canvas>
             </CardContent>
           </Card>
@@ -755,13 +747,16 @@ export default function TestGallery() {
             <CardHeader>
               <CardTitle>Edge</CardTitle>
             </CardHeader>
-            <CardContent className="h-[200px] relative border rounded-md">
-              <div className="absolute top-2 left-2 text-xs text-muted-foreground">Static Edge</div>
-              <Edge source={{ x: 20, y: 20 }} target={{ x: 180, y: 180 }} />
-              <div className="absolute top-2 right-2 text-xs text-muted-foreground text-right">Animated Edge</div>
-              <Edge.Animated source={{ x: 180, y: 20 }} target={{ x: 20, y: 180 }} />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="bg-background px-2 py-1 rounded border text-xs">Connection Text</span>
+            <CardContent className="space-y-4">
+              <div className="relative h-[100px] border rounded-md">
+                <Edge
+                  source={{ x: 50, y: 50 }}
+                  target={{ x: 250, y: 50 }}
+                  data-testid="edge-connection"
+                />
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                  Edge connection
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -772,19 +767,16 @@ export default function TestGallery() {
               <CardTitle>Node</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="relative h-[200px] border rounded-md bg-muted/10 overflow-hidden">
-                <Node title="Node Component" icon={<Activity className="size-4" />} className="top-4 left-4 relative shadow-none border">
-                  <NodeHeader>
-                    <NodeTitle>Node Header Title</NodeTitle>
-                  </NodeHeader>
-                  <NodeContent>
-                    Node Content details and child controls.
-                  </NodeContent>
-                  <NodeFooter>
-                    <NodeDescription>Node Footer Description</NodeDescription>
-                  </NodeFooter>
-                </Node>
-              </div>
+              <Node title="Workflow Node" className="relative">
+                <NodeHeader>
+                  <NodeTitle>Process Data</NodeTitle>
+                </NodeHeader>
+                <NodeContent>
+                  <p className="text-sm text-muted-foreground">
+                    Transform and validate input data
+                  </p>
+                </NodeContent>
+              </Node>
             </CardContent>
           </Card>
         </div>
