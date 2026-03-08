@@ -357,7 +357,8 @@ fn extract_description(raw: &str) -> Option<String> {
 
         let max = 180;
         if cleaned.len() > max {
-            return Some(format!("{}...", &cleaned[..max]));
+            let truncated: String = cleaned.chars().take(max).collect();
+            return Some(format!("{}...", truncated));
         }
         return Some(cleaned);
     }
