@@ -43,10 +43,11 @@ export default defineConfig({
     /* Maximum time each action can take */
     actionTimeout: 10000,
     
-    /* Maximum time each test can take */
-    timeout: 60000,
   },
   
+  /* Maximum time each test can take */
+  timeout: 60000,
+
   /* Configure projects for major browsers */
   projects: [
     {

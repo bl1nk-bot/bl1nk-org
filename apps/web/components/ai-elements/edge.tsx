@@ -4,7 +4,7 @@ import type { ComponentProps } from "react"
 import { memo } from "react"
 import { cn } from "@/lib/utils"
 
-export type EdgeProps = ComponentProps<"svg"> & {
+export type EdgeProps = Omit<ComponentProps<"svg">, "source" | "target"> & {
   source?: { x: number; y: number }
   target?: { x: number; y: number }
 }
