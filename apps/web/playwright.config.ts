@@ -7,6 +7,13 @@ import { defineConfig, devices } from "@playwright/test"
 export default defineConfig({
   testDir: "./tests",
 
+  /* Run your local dev server before starting the tests. */
+  webServer: {
+    command: "bun run dev",
+    url: "http://localhost:3000",
+    reuseExistingServer: !process.env.CI,
+  },
+
   /* Run tests in files in parallel */
   fullyParallel: true,
 
