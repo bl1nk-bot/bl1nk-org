@@ -45,7 +45,7 @@ export class SkillManager {
    */
   private async loadSkillConfig(): Promise<void> {
     const saved = (await this.plugin.loadData())?.[this.STORAGE_KEY]
-    if (saved && saved.sources) {
+    if (saved?.sources) {
       this.skillSources = new Map(Object.entries(saved.sources))
     }
   }
@@ -136,7 +136,7 @@ export class SkillManager {
   /**
    * Parse skill definition from Markdown or JSON content
    */
-  private parseSkillDefinition(content: string, source: string): SkillDefinition {
+  private parseSkillDefinition(content: string, _source: string): SkillDefinition {
     try {
       // Try to parse as JSON first
       try {
@@ -174,7 +174,7 @@ export class SkillManager {
       } else if (currentSection === "description" && line.trim()) {
         skill.description = line.trim()
       } else if (currentSection === "parameters" && line.trim()) {
-        parametersText += line + "\n"
+        parametersText += `${line}\n`
       }
     }
 

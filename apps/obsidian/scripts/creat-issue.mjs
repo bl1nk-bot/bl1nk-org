@@ -59,7 +59,7 @@ function checkGhAuth() {
   return result.status === 0
 }
 
-function detectPkgManager() {
+function _detectPkgManager() {
   if (existsSync(path.join(ROOT, "pnpm-lock.yaml"))) return "pnpm"
   if (existsSync(path.join(ROOT, "bun.lockb"))) return "bun"
   if (existsSync(path.join(ROOT, "yarn.lock"))) return "yarn"

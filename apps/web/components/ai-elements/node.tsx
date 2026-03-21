@@ -16,8 +16,8 @@ export type NodeProps = ComponentProps<"div"> & {
 }
 
 export const Node = memo(({ className, title, icon, children, defaultOpen = true }: NodeProps) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isOpen, _setIsOpen] = useState(defaultOpen)
+  const [position, _setPosition] = useState({ x: 0, y: 0 })
 
   return (
     <div

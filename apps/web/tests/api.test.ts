@@ -3,7 +3,7 @@
  * Tests for API endpoints and integration
  */
 
-import { test, expect } from "@playwright/test"
+import { expect, test } from "@playwright/test"
 
 // ============================================================================
 // Chat API Tests
@@ -23,7 +23,7 @@ test.describe("Chat API", () => {
         webSearch: false,
       },
     })
-    
+
     // Should return 200 or stream response
     expect([200, 201]).toContain(response.status())
   })
@@ -36,7 +36,7 @@ test.describe("Chat API", () => {
         webSearch: false,
       },
     })
-    
+
     // Should handle gracefully
     expect(response.status()).toBeGreaterThanOrEqual(200)
   })
@@ -54,7 +54,7 @@ test.describe("Chat API", () => {
         webSearch: false,
       },
     })
-    
+
     // Should handle invalid model gracefully or return error
     expect([200, 400, 500]).toContain(response.status())
   })
@@ -72,14 +72,14 @@ test.describe("Chat API", () => {
         webSearch: true,
       },
     })
-    
+
     // Should return 200 or stream response
     expect([200, 201]).toContain(response.status())
   })
 
   test("POST /api/chat should handle long messages", async ({ request }) => {
     const longMessage = "A".repeat(10000)
-    
+
     const response = await request.post("/api/chat", {
       data: {
         messages: [
@@ -92,7 +92,7 @@ test.describe("Chat API", () => {
         webSearch: false,
       },
     })
-    
+
     // Should handle long messages
     expect([200, 400, 413]).toContain(response.status())
   })
@@ -174,7 +174,7 @@ test.describe("CORS", () => {
         webSearch: false,
       },
     })
-    
+
     const headers = response.headers()
     // Should have CORS headers or be same-origin
     expect(headers["access-control-allow-origin"] || response.status()).toBeTruthy()
@@ -188,7 +188,7 @@ test.describe("CORS", () => {
 test.describe("Rate Limiting", () => {
   test("should handle multiple rapid requests", async ({ request }) => {
     const requests = []
-    
+
     // Send 5 rapid requests
     for (let i = 0; i < 5; i++) {
       requests.push(
@@ -201,10 +201,10 @@ test.describe("Rate Limiting", () => {
         })
       )
     }
-    
+
     const responses = await Promise.all(requests)
     const statuses = responses.map((r) => r.status())
-    
+
     // Some might be rate limited (429), but should not all fail
     const successCount = statuses.filter((s) => s >= 200 && s < 300).length
     expect(successCount).toBeGreaterThan(0)
@@ -224,7 +224,7 @@ test.describe("Authentication", () => {
         webSearch: false,
       },
     })
-    
+
     // Should either accept (no auth required) or return 401
     expect([200, 201, 401, 403]).toContain(response.status())
   })
@@ -237,7 +237,7 @@ test.describe("Authentication", () => {
 test.describe("API Performance", () => {
   test("should respond within timeout", async ({ request }) => {
     const startTime = Date.now()
-    
+
     const response = await request.post("/api/chat", {
       data: {
         messages: [{ role: "user", content: "test" }],
@@ -245,10 +245,10 @@ test.describe("API Performance", () => {
         webSearch: false,
       },
     })
-    
+
     const endTime = Date.now()
     const duration = endTime - startTime
-    
+
     // Should respond within 30 seconds (adjust based on requirements)
     expect(duration).toBeLessThan(30000)
     expect(response.status()).toBeGreaterThanOrEqual(200)

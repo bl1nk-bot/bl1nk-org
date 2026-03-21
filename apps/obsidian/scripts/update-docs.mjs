@@ -36,14 +36,14 @@ async function readChangelog(n = 5) {
 }
 
 // ตรวจโครงสร้างจริง
-function countFiles(dir) {
+function _countFiles(dir) {
   if (!existsSync(path.join(ROOT, dir))) return 0
   try {
     const result = require("node:child_process").execSync(
       `find ${path.join(ROOT, dir)} -name "*.ts" | wc -l`,
       { encoding: "utf-8" }
     )
-    return parseInt(result.trim())
+    return parseInt(result.trim(), 10)
   } catch {
     return "?"
   }

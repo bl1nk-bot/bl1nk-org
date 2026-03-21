@@ -1,4 +1,4 @@
-import tsParser from "@typescript-eslint/parser";
+import tsParser from "@typescript-eslint/parser"
 
 export default [
 {

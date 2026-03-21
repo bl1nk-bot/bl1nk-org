@@ -1,6 +1,41 @@
 "use client"
 
+import { Calendar, Home, Inbox, Loader2, Mail, Search, User } from "lucide-react"
 import * as React from "react"
+import { toast } from "sonner"
+import { Agent, AgentContent, AgentHeader } from "@/components/ai-elements/agent"
+import { Canvas } from "@/components/ai-elements/canvas"
+import { Checkpoint, CheckpointIcon, CheckpointTrigger } from "@/components/ai-elements/checkpoint"
+import { CodeBlock } from "@/components/ai-elements/code-block"
+import { Conversation, ConversationContent } from "@/components/ai-elements/conversation"
+import { Edge } from "@/components/ai-elements/edge"
+import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/ai-elements/file-tree"
+import { Message, MessageContent } from "@/components/ai-elements/message"
+import { Node, NodeContent, NodeHeader, NodeTitle } from "@/components/ai-elements/node"
+import {
+  Plan,
+  PlanContent,
+  PlanHeader,
+  PlanTitle,
+  PlanTrigger,
+} from "@/components/ai-elements/plan"
+import {
+  PromptInput,
+  PromptInputFooter,
+  PromptInputSubmit,
+  PromptInputTextarea,
+} from "@/components/ai-elements/prompt-input"
+import {
+  Queue,
+  QueueItem,
+  QueueList,
+  QueueSection,
+  QueueSectionContent,
+  QueueSectionLabel,
+  QueueSectionTrigger,
+} from "@/components/ai-elements/queue"
+import { Task, TaskContent, TaskTrigger } from "@/components/ai-elements/task"
+import { Terminal, TerminalContent } from "@/components/ai-elements/terminal"
 import {
   Accordion,
   AccordionContent,
@@ -27,11 +62,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   Command,
   CommandEmpty,
@@ -57,11 +88,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Input } from "@/components/ui/input"
 import { InputGroup } from "@/components/ui/input-group"
 import { Progress } from "@/components/ui/progress"
@@ -74,34 +101,20 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { toast } from "sonner"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
-import { Agent, AgentHeader, AgentContent } from "@/components/ai-elements/agent"
-import { CodeBlock } from "@/components/ai-elements/code-block"
-import { Checkpoint, CheckpointIcon, CheckpointTrigger } from "@/components/ai-elements/checkpoint"
-import { Conversation, ConversationContent } from "@/components/ai-elements/conversation"
-import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/ai-elements/file-tree"
-import { Message, MessageContent } from "@/components/ai-elements/message"
-import { Plan, PlanContent, PlanHeader, PlanTitle, PlanTrigger } from "@/components/ai-elements/plan"
-import { Queue, QueueItem, QueueList, QueueSection, QueueSectionLabel, QueueSectionTrigger, QueueSectionContent } from "@/components/ai-elements/queue"
-import { Task, TaskTrigger, TaskContent } from "@/components/ai-elements/task"
-import { Terminal, TerminalContent } from "@/components/ai-elements/terminal"
-import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from "@/components/ai-elements/prompt-input"
-import { Canvas } from "@/components/ai-elements/canvas"
-import { Edge } from "@/components/ai-elements/edge"
-import { Node, NodeHeader, NodeTitle, NodeContent } from "@/components/ai-elements/node"
-
-import { Loader2, Mail, Search, User, Settings, Home, Inbox, Calendar } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export default function TestGallery() {
   const [progress, setProgress] = React.useState(13)
@@ -133,8 +146,12 @@ export default function TestGallery() {
               <Button variant="link">Link</Button>
               <Button size="sm">Small</Button>
               <Button size="lg">Large</Button>
-              <Button size="icon" aria-label="Send mail"><Mail /></Button>
-              <Button disabled><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading</Button>
+              <Button size="icon" aria-label="Send mail">
+                <Mail />
+              </Button>
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading
+              </Button>
             </CardContent>
           </Card>
 
@@ -165,9 +182,7 @@ export default function TestGallery() {
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone.
-                    </DialogDescription>
+                    <DialogDescription>This action cannot be undone.</DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
                     <Button type="submit">Confirm</Button>
@@ -211,9 +226,15 @@ export default function TestGallery() {
               <CardTitle>Sonner (Toast)</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <Button variant="outline" onClick={() => toast("Event has been created")}>Default Toast</Button>
-              <Button variant="outline" onClick={() => toast.success("Success!")}>Success Toast</Button>
-              <Button variant="outline" onClick={() => toast.error("Error!")}>Error Toast</Button>
+              <Button variant="outline" onClick={() => toast("Event has been created")}>
+                Default Toast
+              </Button>
+              <Button variant="outline" onClick={() => toast.success("Success!")}>
+                Success Toast
+              </Button>
+              <Button variant="outline" onClick={() => toast.error("Error!")}>
+                Error Toast
+              </Button>
             </CardContent>
           </Card>
 
@@ -281,10 +302,9 @@ export default function TestGallery() {
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[100px] w-[200px] rounded-md border p-4">
-                Jokester began sneaking into the castle in the middle of the night and leaving
-                jokes all over the place: under the king's pillow, in his soup, even in the
-                royal toilet. The king was furious, but he couldn't help but laugh at some of
-                the jokes.
+                Jokester began sneaking into the castle in the middle of the night and leaving jokes
+                all over the place: under the king's pillow, in his soup, even in the royal toilet.
+                The king was furious, but he couldn't help but laugh at some of the jokes.
               </ScrollArea>
             </CardContent>
           </Card>
@@ -343,9 +363,7 @@ export default function TestGallery() {
               </Alert>
               <Alert variant="destructive">
                 <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                  Your session has expired. Please log in again.
-                </AlertDescription>
+                <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
               </Alert>
             </CardContent>
           </Card>
@@ -371,11 +389,14 @@ export default function TestGallery() {
             <CardContent>
               <Collapsible className="w-[350px] space-y-2">
                 <div className="flex items-center justify-between space-x-4 px-4">
-                  <h4 className="text-sm font-semibold">
-                    @peduarte starred 3 repositories
-                  </h4>
+                  <h4 className="text-sm font-semibold">@peduarte starred 3 repositories</h4>
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-9 p-0" aria-label="Toggle repositories">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-9 p-0"
+                      aria-label="Toggle repositories"
+                    >
                       <Search className="h-4 w-4" />
                     </Button>
                   </CollapsibleTrigger>
@@ -462,7 +483,9 @@ export default function TestGallery() {
                   <SelectItem value="apple">Apple</SelectItem>
                   <SelectItem value="banana">Banana</SelectItem>
                   <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes" disabled>Grapes</SelectItem>
+                  <SelectItem value="grapes" disabled>
+                    Grapes
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </CardContent>
@@ -515,7 +538,9 @@ export default function TestGallery() {
             <CardContent className="space-y-4">
               <InputGroup>
                 <Input placeholder="Search..." />
-                <Button size="icon" aria-label="Search"><Search className="h-4 w-4" /></Button>
+                <Button size="icon" aria-label="Search">
+                  <Search className="h-4 w-4" />
+                </Button>
               </InputGroup>
               <InputGroup>
                 <div className="flex items-center justify-center bg-muted px-3 border border-r-0 rounded-l-md">
@@ -612,9 +637,7 @@ export default function TestGallery() {
             <CardContent>
               <Checkpoint>
                 <CheckpointIcon />
-                <CheckpointTrigger tooltip="2 minutes ago">
-                  Checkpoint saved
-                </CheckpointTrigger>
+                <CheckpointTrigger tooltip="2 minutes ago">Checkpoint saved</CheckpointTrigger>
               </Checkpoint>
             </CardContent>
           </Card>
@@ -633,9 +656,7 @@ export default function TestGallery() {
                     </MessageContent>
                   </Message>
                   <Message from="assistant">
-                    <MessageContent>
-                      I can help you with your code!
-                    </MessageContent>
+                    <MessageContent>I can help you with your code!</MessageContent>
                   </Message>
                 </ConversationContent>
               </Conversation>
@@ -671,9 +692,7 @@ export default function TestGallery() {
                 <PlanContent>
                   <Task defaultOpen>
                     <TaskTrigger title="Prepare infrastructure" />
-                    <TaskContent>
-                      Setting up servers and database.
-                    </TaskContent>
+                    <TaskContent>Setting up servers and database.</TaskContent>
                   </Task>
                 </PlanContent>
               </Plan>
@@ -772,9 +791,7 @@ export default function TestGallery() {
                   <NodeTitle>Process Data</NodeTitle>
                 </NodeHeader>
                 <NodeContent>
-                  <p className="text-sm text-muted-foreground">
-                    Transform and validate input data
-                  </p>
+                  <p className="text-sm text-muted-foreground">Transform and validate input data</p>
                 </NodeContent>
               </Node>
             </CardContent>

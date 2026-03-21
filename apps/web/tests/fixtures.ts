@@ -8,8 +8,8 @@
  * @module fixtures
  */
 
-import { test as base } from "@playwright/test"
 import AxeBuilder from "@axe-core/playwright"
+import { test as base } from "@playwright/test"
 
 /**
  * Extended Playwright test with custom fixtures.

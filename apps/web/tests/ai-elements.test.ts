@@ -7,7 +7,7 @@
  * @module ai-elements-test
  */
 
-import { test, expect } from "./fixtures"
+import { expect, test } from "./fixtures"
 
 /**
  * AI Elements Gallery Test Suite
@@ -130,11 +130,11 @@ test.describe("AI Elements Gallery", () => {
     const section = page.locator("#canvas-section")
     await expect(section).toBeVisible()
     await expect(section.getByText("Canvas")).toBeVisible()
-    
+
     // Assert canvas element is visible using specific test id
     const canvas = section.getByTestId("canvas-area")
     await expect(canvas).toBeVisible()
-    
+
     // Assert example text is present
     await expect(section.getByText("Canvas area for workflow")).toBeVisible()
   })
@@ -147,10 +147,10 @@ test.describe("AI Elements Gallery", () => {
     const section = page.locator("#edge-section")
     await expect(section).toBeVisible()
     await expect(section.getByText("Edge")).toBeVisible()
-    
+
     // Assert edge label/connection text is visible
     await expect(section.getByText("Edge connection")).toBeVisible()
-    
+
     // Assert SVG edge element exists using specific test id
     const edge = section.getByTestId("edge-connection")
     await expect(edge).toBeVisible()
@@ -164,13 +164,13 @@ test.describe("AI Elements Gallery", () => {
     const section = page.locator("#node-section")
     await expect(section).toBeVisible()
     await expect(section.getByText("Node")).toBeVisible()
-    
+
     // Assert node title is visible
     await expect(section.getByText("Process Data")).toBeVisible()
-    
+
     // Assert node content is visible (explicit partial match)
     await expect(section.getByText("Transform and validate", { exact: false })).toBeVisible()
-    
+
     // Assert node has child controls
     const node = section.locator("[class*='node'], [class*='card']")
     await expect(node.first()).toBeVisible()
@@ -186,23 +186,20 @@ test.describe("AI Elements Gallery", () => {
    *
    * Uses axe-core to detect accessibility violations.
    */
-  test("should not have accessibility violations on AI elements", async ({ page, makeAxeBuilder }) => {
+  test("should not have accessibility violations on AI elements", async ({
+    page,
+    makeAxeBuilder,
+  }) => {
     // Test agent section
-    const agentResults = await makeAxeBuilder()
-      .include("#agent-section")
-      .analyze()
+    const agentResults = await makeAxeBuilder().include("#agent-section").analyze()
     expect(agentResults.violations).toEqual([])
 
     // Test codeblock section
-    const codeblockResults = await makeAxeBuilder()
-      .include("#codeblock-section")
-      .analyze()
+    const codeblockResults = await makeAxeBuilder().include("#codeblock-section").analyze()
     expect(codeblockResults.violations).toEqual([])
 
     // Test button section (icon-only buttons with aria-labels)
-    const buttonResults = await makeAxeBuilder()
-      .include("#button-section")
-      .analyze()
+    const buttonResults = await makeAxeBuilder().include("#button-section").analyze()
     expect(buttonResults.violations).toEqual([])
   })
 
@@ -215,17 +212,16 @@ test.describe("AI Elements Gallery", () => {
    *
    * Uses axe-core to detect accessibility violations.
    */
-  test("should not have accessibility violations on forms and inputs", async ({ page, makeAxeBuilder }) => {
+  test("should not have accessibility violations on forms and inputs", async ({
+    page,
+    makeAxeBuilder,
+  }) => {
     // Test input section
-    const inputResults = await makeAxeBuilder()
-      .include("#input-section")
-      .analyze()
+    const inputResults = await makeAxeBuilder().include("#input-section").analyze()
     expect(inputResults.violations).toEqual([])
 
     // Test promptinput section
-    const promptInputResults = await makeAxeBuilder()
-      .include("#promptinput-section")
-      .analyze()
+    const promptInputResults = await makeAxeBuilder().include("#promptinput-section").analyze()
     expect(promptInputResults.violations).toEqual([])
   })
 
@@ -238,17 +234,16 @@ test.describe("AI Elements Gallery", () => {
    *
    * Uses axe-core to detect accessibility violations.
    */
-  test("should not have accessibility violations on navigation components", async ({ page, makeAxeBuilder }) => {
+  test("should not have accessibility violations on navigation components", async ({
+    page,
+    makeAxeBuilder,
+  }) => {
     // Test breadcrumb section
-    const breadcrumbResults = await makeAxeBuilder()
-      .include("#breadcrumb-section")
-      .analyze()
+    const breadcrumbResults = await makeAxeBuilder().include("#breadcrumb-section").analyze()
     expect(breadcrumbResults.violations).toEqual([])
 
     // Test tabs section
-    const tabsResults = await makeAxeBuilder()
-      .include("#tabs-section")
-      .analyze()
+    const tabsResults = await makeAxeBuilder().include("#tabs-section").analyze()
     expect(tabsResults.violations).toEqual([])
   })
 })

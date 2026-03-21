@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronDownIcon } from "lucide-react"
-import type { ComponentProps, ReactNode } from "react"
+import type { ComponentProps } from "react"
 import { memo, useState } from "react"
 import { cn } from "@/lib/utils"
 
@@ -10,7 +10,7 @@ export type PlanProps = ComponentProps<"div"> & {
 }
 
 export const Plan = memo(({ className, children, defaultOpen = true }: PlanProps) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
+  const [isOpen, _setIsOpen] = useState(defaultOpen)
 
   return <div className={cn("rounded-md border", className)}>{isOpen ? children : null}</div>
 })

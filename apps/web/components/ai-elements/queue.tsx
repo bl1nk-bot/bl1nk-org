@@ -1,6 +1,5 @@
 "use client"
 
-import { ChevronDownIcon } from "lucide-react"
 import type { ComponentProps, ReactNode } from "react"
 import { memo, useState } from "react"
 import { cn } from "@/lib/utils"
@@ -17,7 +16,7 @@ export type QueueSectionProps = ComponentProps<"div"> & {
 
 export const QueueSection = memo(
   ({ className, children, defaultOpen = true }: QueueSectionProps) => {
-    const [isOpen, setIsOpen] = useState(defaultOpen)
+    const [isOpen, _setIsOpen] = useState(defaultOpen)
 
     return <div className={cn("space-y-2", className)}>{isOpen ? children : null}</div>
   }

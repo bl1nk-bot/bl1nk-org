@@ -1,0 +1,5 @@
+      - name: Install Playwright
+        run: bunx playwright install --with-deps
+
+      - name: Run basic test check
+        run: echo "Test infrastructure is set up. Full integration tests will be enabled once UI components are implemented."

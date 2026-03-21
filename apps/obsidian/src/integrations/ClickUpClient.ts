@@ -22,15 +22,15 @@ export class ClickUpClient {
     }
   }
 
-  private async createTask(params: Record<string, unknown>): Promise<unknown> {
+  private async createTask(_params: Record<string, unknown>): Promise<unknown> {
     return { taskId: "new-task-id" }
   }
 
-  private async listTasks(params: Record<string, unknown>): Promise<unknown> {
+  private async listTasks(_params: Record<string, unknown>): Promise<unknown> {
     return { tasks: [] }
   }
 
-  private async updateTask(params: Record<string, unknown>): Promise<unknown> {
+  private async updateTask(_params: Record<string, unknown>): Promise<unknown> {
     return { updated: true }
   }
 }

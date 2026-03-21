@@ -29,7 +29,7 @@ export function toRelativePath(absolutePath: string, basePath: string): string {
   const normalizedBase = basePath.replace(/\/+$/, "")
   const normalizedPath = absolutePath.replace(/\/+$/, "")
 
-  if (normalizedPath.startsWith(normalizedBase + "/")) {
+  if (normalizedPath.startsWith(`${normalizedBase}/`)) {
     return normalizedPath.slice(normalizedBase.length + 1)
   }
   return absolutePath

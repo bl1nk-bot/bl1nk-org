@@ -84,15 +84,7 @@
 
     // MD033 - Inline HTML
     "MD033": {
-      "allowed_elements": [
-        "br",
-        "details",
-        "summary",
-        "kbd",
-        "code",
-        "sup",
-        "sub"
-      ]
+      "allowed_elements": ["br", "details", "summary", "kbd", "code", "sup", "sub"]
     },
 
     // MD034 - Bare URL used

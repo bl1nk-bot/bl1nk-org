@@ -1,6 +1,6 @@
 import { MCPToolAdapter } from "../integrations/MCPToolAdapter"
 import type { Logger } from "../services/Logger"
-import { type Tool, ToolParameter } from "../types/index.types"
+import type { Tool } from "../types/index.types"
 
 export interface ToolExecutionContext {
   sessionId: string

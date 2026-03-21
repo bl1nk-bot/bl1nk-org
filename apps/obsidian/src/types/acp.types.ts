@@ -13,13 +13,13 @@ import type {
 
 export type {
   ClientSideConnection,
-  NewSessionRequest,
-  NewSessionResponse,
-  LoadSessionRequest,
-  PromptRequest,
-  PromptResponse,
   InitializeRequest,
   InitializeResponse,
+  LoadSessionRequest,
+  NewSessionRequest,
+  NewSessionResponse,
+  PromptRequest,
+  PromptResponse,
   SetSessionModeRequest,
 }
 

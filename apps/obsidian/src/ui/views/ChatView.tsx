@@ -60,7 +60,7 @@ const EnhancedChatComponent: React.FC<{ plugin: SmartAssistantPlugin }> = ({ plu
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages, streamingText])
+  }, [scrollToBottom])
 
   // Load available files from vault
   const loadVaultFiles = useCallback((): FileMention[] => {
@@ -175,8 +175,7 @@ const EnhancedChatComponent: React.FC<{ plugin: SmartAssistantPlugin }> = ({ plu
 
     if (lastAtIndex === -1) return
 
-    const newInput =
-      input.substring(0, lastAtIndex) + `@[${file.name}](${file.path})` + input.substring(cursorPos)
+    const newInput = `${input.substring(0, lastAtIndex)}@[${file.name}](${file.path})${input.substring(cursorPos)}`
 
     setInput(newInput)
     setShowFileSuggestions(false)
@@ -194,8 +193,7 @@ const EnhancedChatComponent: React.FC<{ plugin: SmartAssistantPlugin }> = ({ plu
 
     if (lastSlashIndex === -1) return
 
-    const newInput =
-      input.substring(0, lastSlashIndex) + `/${command.name} ` + input.substring(cursorPos)
+    const newInput = `${input.substring(0, lastSlashIndex)}/${command.name} ${input.substring(cursorPos)}`
 
     setInput(newInput)
     setShowCommandSuggestions(false)
@@ -311,7 +309,7 @@ const EnhancedChatComponent: React.FC<{ plugin: SmartAssistantPlugin }> = ({ plu
       const currentInput = input.trim()
       setInput("")
 
-      const result = await plugin.acpManager.prompt(currentSessionId, [
+      const _result = await plugin.acpManager.prompt(currentSessionId, [
         { type: "text", text: currentInput },
       ])
 

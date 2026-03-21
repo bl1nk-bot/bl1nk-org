@@ -1,13 +1,6 @@
-import {
-  ButtonComponent,
-  ItemView,
-  Setting,
-  TextAreaComponent,
-  TextComponent,
-  type WorkspaceLeaf,
-} from "obsidian"
+import { ItemView, Setting, TextAreaComponent, type WorkspaceLeaf } from "obsidian"
 import type SmartAssistantPlugin from "../../main"
-import { type Tool, type ToolActionType, ToolParameter } from "../../types/tool.types"
+import type { Tool, ToolActionType } from "../../types/tool.types"
 
 export const TOOL_TEMPLATE_VIEW_TYPE = "obsidian-agent-tool-template"
 
