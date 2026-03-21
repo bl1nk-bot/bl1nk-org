@@ -7,7 +7,7 @@
  * @module ui-components-test
  */
 
-import { test, expect } from "@playwright/test"
+import { expect, test } from "@playwright/test"
 
 /**
  * UI Components Gallery Test Suite
@@ -99,7 +99,9 @@ test.describe("UI Components Gallery", () => {
   test("Sonner (Toast) should show notifications", async ({ page }) => {
     const section = page.locator("#sonner-section")
     await section.getByRole("button", { name: "Default Toast" }).click()
-    await expect(page.locator("[data-sonner-toast]").getByText("Event has been created")).toBeVisible()
+    await expect(
+      page.locator("[data-sonner-toast]").getByText("Event has been created")
+    ).toBeVisible()
 
     await section.getByRole("button", { name: "Success Toast" }).click()
     await expect(page.locator("[data-sonner-toast]").getByText("Success!")).toBeVisible()
@@ -227,7 +229,9 @@ test.describe("UI Components Gallery", () => {
   test("Hover Card should show content on hover", async ({ page }) => {
     const section = page.locator("#hover-card-section")
     await section.getByText("@nextjs").hover()
-    await expect(page.getByText("The React Framework – created and maintained by @vercel.")).toBeVisible()
+    await expect(
+      page.getByText("The React Framework – created and maintained by @vercel.")
+    ).toBeVisible()
   })
 
   /**
@@ -281,7 +285,9 @@ test.describe("UI Components Gallery", () => {
    */
   test("Input Group should render with icons/buttons", async ({ page }) => {
     const section = page.locator("#input-group-section")
-    await expect(section.locator("button").filter({ has: page.locator(".lucide-search") })).toBeVisible()
+    await expect(
+      section.locator("button").filter({ has: page.locator(".lucide-search") })
+    ).toBeVisible()
     await expect(section.locator(".lucide-user")).toBeVisible()
   })
 

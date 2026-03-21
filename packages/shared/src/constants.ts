@@ -3,8 +3,8 @@
  */
 
 // ─── API & Protocol ───────────────────────────────────
-export const ACP_VERSION = "2.0";
-export const JSONRPC_VERSION = "2.0";
+export const ACP_VERSION = "2.0"
+export const JSONRPC_VERSION = "2.0"
 
 export const ACP_METHODS = {
   AGENT_EXECUTE: "agent.execute",
@@ -16,7 +16,7 @@ export const ACP_METHODS = {
   SKILL_LOAD: "skill.load",
   MEMORY_EXTRACT: "memory.extract",
   MEMORY_CONFIRM: "memory.confirm",
-} as const;
+} as const
 
 export const ACP_ERROR_CODES = {
   PARSE_ERROR: -32700,
@@ -30,7 +30,7 @@ export const ACP_ERROR_CODES = {
   TASK_NOT_FOUND: -32002,
   UNAUTHORIZED: -32003,
   RESOURCE_EXHAUSTED: -32004,
-} as const;
+} as const
 
 // ─── Agent Status ─────────────────────────────────────
 export const AGENT_STATUSES = {
@@ -39,7 +39,7 @@ export const AGENT_STATUSES = {
   EXECUTING: "executing",
   ERROR: "error",
   PAUSED: "paused",
-} as const;
+} as const
 
 // ─── Task Status ──────────────────────────────────────
 export const TASK_STATUSES = {
@@ -48,7 +48,7 @@ export const TASK_STATUSES = {
   COMPLETED: "completed",
   FAILED: "failed",
   CANCELLED: "cancelled",
-} as const;
+} as const
 
 // ─── Memory Status ────────────────────────────────────
 export const MEMORY_STATUSES = {
@@ -56,20 +56,20 @@ export const MEMORY_STATUSES = {
   CONFIRMED: "confirmed",
   REJECTED: "rejected",
   ARCHIVED: "archived",
-} as const;
+} as const
 
 // ─── AI Models ────────────────────────────────────────
 export const AI_MODELS = {
   CLAUDE: "claude-3-5-sonnet",
   GEMINI: "gemini-2-0-flash",
   OPENAI: "gpt-4o",
-} as const;
+} as const
 
 export const AI_MODEL_DEFAULTS = {
   MAX_TOKENS: 4096,
   TEMPERATURE: 0.7,
   TIMEOUT: 60000, // 60 seconds
-} as const;
+} as const
 
 // ─── WebSocket Events ─────────────────────────────────
 export const WEBSOCKET_EVENTS = {
@@ -83,7 +83,7 @@ export const WEBSOCKET_EVENTS = {
   AGENT_ERROR: "agent:error",
   FILE_CHANGED: "file:changed",
   TERMINAL_OUTPUT: "terminal:output",
-} as const;
+} as const
 
 // ─── Built-in Tools ───────────────────────────────────
 export const BUILTIN_TOOLS = {
@@ -96,7 +96,7 @@ export const BUILTIN_TOOLS = {
   GITHUB_ACTION: "github-action",
   SKILL_CREATE: "skill-create",
   SKILL_UPDATE: "skill-update",
-} as const;
+} as const
 
 // ─── Timeouts & Limits ────────────────────────────────
 export const LIMITS = {
@@ -107,7 +107,7 @@ export const LIMITS = {
   MAX_TASK_RETRIES: 3,
   TASK_TIMEOUT: 30 * 60 * 1000, // 30 minutes
   AGENT_IDLE_TIMEOUT: 5 * 60 * 1000, // 5 minutes
-} as const;
+} as const
 
 // ─── File Types ───────────────────────────────────────
 export const FILE_TYPES = {
@@ -116,7 +116,7 @@ export const FILE_TYPES = {
   CONFIG: ["json", "yaml", "toml", "env"],
   IMAGE: ["png", "jpg", "jpeg", "gif", "svg"],
   DATA: ["csv", "xlsx", "xml"],
-} as const;
+} as const
 
 // ─── Artifact Types ───────────────────────────────────
 export const ARTIFACT_TYPES = {
@@ -126,7 +126,7 @@ export const ARTIFACT_TYPES = {
   DOCUMENT: "document",
   DATA: "data",
   LOG: "log",
-} as const;
+} as const
 
 // ─── Message Roles ────────────────────────────────────
 export const MESSAGE_ROLES = {
@@ -134,7 +134,7 @@ export const MESSAGE_ROLES = {
   ASSISTANT: "assistant",
   SYSTEM: "system",
   TOOL: "tool",
-} as const;
+} as const
 
 // ─── Browser Commands ─────────────────────────────────
 export const BROWSER_COMMANDS = {
@@ -145,7 +145,7 @@ export const BROWSER_COMMANDS = {
   EXTRACT: "extract",
   FILL_FORM: "fill_form",
   WAIT: "wait",
-} as const;
+} as const
 
 // ─── GitHub Integration ───────────────────────────────
 export const GITHUB_EVENTS = {
@@ -153,7 +153,7 @@ export const GITHUB_EVENTS = {
   PUSH: "push",
   ISSUES: "issues",
   ISSUE_COMMENT: "issue_comment",
-} as const;
+} as const
 
 // ─── Storage & CDN ────────────────────────────────────
 export const STORAGE_CONFIG = {
@@ -161,7 +161,7 @@ export const STORAGE_CONFIG = {
   R2_REGION: process.env.R2_REGION || "auto",
   CDN_PREFIX: process.env.CDN_PREFIX || "https://cdn.bl1nk.dev",
   ARTIFACT_RETENTION_DAYS: 30,
-} as const;
+} as const
 
 // ─── Skill System ─────────────────────────────────────
 export const SKILL_CONFIG = {
@@ -169,14 +169,14 @@ export const SKILL_CONFIG = {
   BUILTIN_SKILL_DIR: "./src/skills/core",
   SKILL_FILE_EXTENSIONS: [".md", ".json"],
   MAX_SKILL_SIZE: 1024 * 1024, // 1MB
-} as const;
+} as const
 
 // ─── Database ─────────────────────────────────────────
 export const DB_CONFIG = {
   CONNECTION_TIMEOUT: 10000,
   QUERY_TIMEOUT: 30000,
   MAX_CONNECTIONS: 10,
-} as const;
+} as const
 
 // ─── Logging ──────────────────────────────────────────
 export const LOG_LEVELS = {
@@ -184,29 +184,29 @@ export const LOG_LEVELS = {
   INFO: "info",
   WARN: "warn",
   ERROR: "error",
-} as const;
+} as const
 
 // ─── Pagination ───────────────────────────────────────
 export const PAGINATION_DEFAULTS = {
   PAGE: 1,
   LIMIT: 20,
   MAX_LIMIT: 100,
-} as const;
+} as const
 
 // ─── Cache ────────────────────────────────────────────
 export const CACHE_TTL = {
   SHORT: 5 * 60 * 1000, // 5 minutes
   MEDIUM: 30 * 60 * 1000, // 30 minutes
   LONG: 24 * 60 * 60 * 1000, // 24 hours
-} as const;
+} as const
 
 // ─── Regex Patterns ───────────────────────────────────
 export const PATTERNS = {
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   URL: /^https?:\/\/.+/,
-  FILE_PATH: /^[a-zA-Z0-9._\/-]+$/,
+  FILE_PATH: /^[a-zA-Z0-9._/-]+$/,
   SKILL_NAME: /^[a-z0-9-]+$/,
-} as const;
+} as const
 
 // ─── HTTP Status Codes ────────────────────────────────
 export const HTTP_STATUS = {
@@ -219,4 +219,4 @@ export const HTTP_STATUS = {
   CONFLICT: 409,
   INTERNAL_ERROR: 500,
   SERVICE_UNAVAILABLE: 503,
-} as const;
+} as const

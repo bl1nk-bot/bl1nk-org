@@ -13,8 +13,6 @@
       "apps/android/**",
       "apps/obsidian/**",
       "packages/**",
-      ".eslintrc.json",
-      "eslint.config.js",
       "next.config.ts",
       "shelve.config.json"
     ]

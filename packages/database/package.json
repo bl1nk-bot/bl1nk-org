@@ -6,15 +6,16 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "echo 'dev script not implemented'",
-    "build": "echo 'build script not implemented'"
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
-    "drizzle-orm": "0.30.0",
-    "postgres": "3.4.0"
+    "@prisma/client": "^6.5.0"
   },
   "devDependencies": {
-    "drizzle-kit": "0.21.0",
+    "prisma": "^6.5.0",
     "@types/node": "20.0.0",
     "typescript": "^5.5.0"
   }
