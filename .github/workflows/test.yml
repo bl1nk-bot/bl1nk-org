@@ -23,7 +23,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install Playwright
-        run: bunx playwright install-deps
+        run: bunx playwright install --with-deps
 
       - name: Run tests
         run: bun run test
