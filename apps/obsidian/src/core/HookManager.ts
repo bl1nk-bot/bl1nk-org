@@ -1,6 +1,6 @@
 import type { EventBus } from "../services/EventBus"
 import type { Logger } from "../services/Logger"
-import { type Hook, HookAction, type HookEvent, Project } from "../types/index.types"
+import type { Hook, HookEvent } from "../types/index.types"
 import type { PluginStore } from "../types/store.types"
 import type { ProjectManager } from "./ProjectManager"
 import type { ToolExecutionContext, ToolManager } from "./ToolManager"
@@ -9,7 +9,7 @@ export class HookManager {
   constructor(
     private store: PluginStore,
     private eventBus: EventBus,
-    private projectManager: ProjectManager,
+    _projectManager: ProjectManager,
     private toolManager: ToolManager,
     private logger: Logger
   ) {

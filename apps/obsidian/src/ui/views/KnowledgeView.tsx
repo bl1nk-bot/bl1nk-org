@@ -5,7 +5,6 @@ import { useState } from "react"
 import { createRoot, type Root } from "react-dom/client"
 
 import type SmartAssistantPlugin from "../../main"
-import type { PluginSettings } from "../../types/acp.types"
 
 export const VIEW_TYPE_KNOWLEDGE = "knowledge"
 

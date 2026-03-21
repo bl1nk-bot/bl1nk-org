@@ -22,15 +22,15 @@ export class AirtableClient {
     }
   }
 
-  private async createRecord(params: Record<string, unknown>): Promise<unknown> {
+  private async createRecord(_params: Record<string, unknown>): Promise<unknown> {
     return { recordId: "new-record-id" }
   }
 
-  private async listRecords(params: Record<string, unknown>): Promise<unknown> {
+  private async listRecords(_params: Record<string, unknown>): Promise<unknown> {
     return { records: [] }
   }
 
-  private async updateRecord(params: Record<string, unknown>): Promise<unknown> {
+  private async updateRecord(_params: Record<string, unknown>): Promise<unknown> {
     return { updated: true }
   }
 }

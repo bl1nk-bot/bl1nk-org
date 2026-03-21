@@ -3,7 +3,7 @@
  * Tests cover: AI Providers, Auth Manager, Skill Manager, and Chat View
  */
 
-import { afterEach, beforeEach, describe, expect, it } from "@jest/globals"
+import { beforeEach, describe, expect, it } from "@jest/globals"
 import { AuthManager } from "../src/core/AuthManager"
 import {
   createCodeReviewSkill,
@@ -226,9 +226,9 @@ describe("AuthManager", () => {
       })
 
       const configs = authManager.getAllProviderConfigs()
-      expect(configs["qwen"]).toBeDefined()
-      expect(configs["vertex"]).toBeDefined()
-      expect(configs["qwen"].apiKey).toBeUndefined() // Sensitive data excluded
+      expect(configs.qwen).toBeDefined()
+      expect(configs.vertex).toBeDefined()
+      expect(configs.qwen.apiKey).toBeUndefined() // Sensitive data excluded
     })
 
     it("should check if provider is configured", async () => {

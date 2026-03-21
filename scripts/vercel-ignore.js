@@ -36,7 +36,7 @@ function shouldProceedBuild() {
     execSync(diffCommand)
 
     return false // ไม่มีการเปลี่ยนที่สำคัญ -> ยกเลิก Build
-  } catch (error) {
+  } catch (_error) {
     return true // มีการเปลี่ยนไฟล์สำคัญ -> เริ่ม Build
   }
 }

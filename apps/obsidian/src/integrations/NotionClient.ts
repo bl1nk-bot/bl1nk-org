@@ -22,15 +22,15 @@ export class NotionClient {
     }
   }
 
-  private async createPage(params: Record<string, unknown>): Promise<unknown> {
+  private async createPage(_params: Record<string, unknown>): Promise<unknown> {
     return { pageId: "new-page-id" }
   }
 
-  private async queryDatabase(params: Record<string, unknown>): Promise<unknown> {
+  private async queryDatabase(_params: Record<string, unknown>): Promise<unknown> {
     return { results: [] }
   }
 
-  private async updatePage(params: Record<string, unknown>): Promise<unknown> {
+  private async updatePage(_params: Record<string, unknown>): Promise<unknown> {
     return { updated: true }
   }
 }

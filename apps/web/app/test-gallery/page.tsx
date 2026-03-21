@@ -1,6 +1,6 @@
 "use client"
 
-import { Calendar, Home, Inbox, Loader2, Mail, Search, Settings, User } from "lucide-react"
+import { Calendar, Home, Inbox, Loader2, Mail, Search, User } from "lucide-react"
 import * as React from "react"
 import { toast } from "sonner"
 import { Agent, AgentContent, AgentHeader } from "@/components/ai-elements/agent"

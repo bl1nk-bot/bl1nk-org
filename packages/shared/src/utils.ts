@@ -2,7 +2,6 @@
  * Shared Utility Functions for bl1nk-workspace
  */
 
-import { ACP_ERROR_CODES } from "./constants"
 import type { ACPError, ACPResponse } from "./types"
 
 // ─── ID Generation ────────────────────────────────────
@@ -147,7 +146,7 @@ export function isExpired(date: Date, expiryMs: number): boolean {
 export function deepClone<T>(obj: T): T {
   if (obj === null || typeof obj !== "object") return obj
   if (obj instanceof Date) return new Date(obj.getTime()) as T
-  if (obj instanceof Array) return obj.map((item) => deepClone(item)) as T
+  if (Array.isArray(obj)) return obj.map((item) => deepClone(item)) as T
   if (obj instanceof Object) {
     const clonedObj = {} as T
     for (const key in obj) {
@@ -300,7 +299,7 @@ export function isString(value: unknown): value is string {
 }
 
 export function isNumber(value: unknown): value is number {
-  return typeof value === "number" && !isNaN(value)
+  return typeof value === "number" && !Number.isNaN(value)
 }
 
 export function isBoolean(value: unknown): value is boolean {
@@ -328,7 +327,7 @@ export function getEnv(key: string, defaultValue?: string): string {
 export function getEnvNumber(key: string, defaultValue?: number): number {
   const value = getEnv(key, defaultValue?.toString())
   const num = parseInt(value, 10)
-  if (isNaN(num)) {
+  if (Number.isNaN(num)) {
     throw new Error(`Environment variable ${key} is not a valid number`)
   }
   return num

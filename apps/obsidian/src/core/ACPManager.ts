@@ -1,7 +1,7 @@
+import { type ChildProcess, spawn } from "node:child_process"
+import { Readable, Writable } from "node:stream"
 import type { Agent, Client } from "@agentclientprotocol/sdk"
 import { ClientSideConnection, ndJsonStream, PROTOCOL_VERSION } from "@agentclientprotocol/sdk"
-import { type ChildProcess, spawn } from "child_process"
-import { Readable, Writable } from "stream"
 import { EventBus } from "../services/EventBus"
 import type { ACPAgentConfig } from "../types/acp.types"
 
@@ -49,7 +49,7 @@ export class ACPManager {
   private currentSessionId: string | null = null
   private agentInfo: ACPInitializeResult | null = null
 
-  constructor(nodePath: string = "node", eventBus?: EventBus) {
+  constructor(_nodePath: string = "node", eventBus?: EventBus) {
     this.eventBus = eventBus || new EventBus()
   }
 

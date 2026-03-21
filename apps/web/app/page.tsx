@@ -343,13 +343,16 @@ const Example = () => {
     mockFiles.find((f) => f.path === path)
 
   // Handle file selection
-  const handleFileSelect = useCallback((path: string) => {
-    setSelectedPath(path)
-    const file = findFileByPath(path)
-    if (file) {
-      setCurrentFile(file)
-    }
-  }, [])
+  const handleFileSelect = useCallback(
+    (path: string) => {
+      setSelectedPath(path)
+      const file = findFileByPath(path)
+      if (file) {
+        setCurrentFile(file)
+      }
+    },
+    [findFileByPath]
+  )
 
   // Stream message content word by word
   const streamContent = useCallback(async (messageKey: string, content: string) => {

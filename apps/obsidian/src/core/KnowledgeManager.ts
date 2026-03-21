@@ -36,7 +36,7 @@ export class KnowledgeManager {
 
     try {
       const workspace = input.workspace || this.defaultWorkspace || "default"
-      const topK = input.topK || this.settings.topK || 5
+      const _topK = input.topK || this.settings.topK || 5
 
       const response = await fetch(`${this.endpoint}/workspaces/${workspace}/query`, {
         method: "POST",

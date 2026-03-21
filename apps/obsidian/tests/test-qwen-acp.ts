@@ -1,7 +1,7 @@
+import { type ChildProcess, spawn } from "node:child_process"
+import { Readable, Writable } from "node:stream"
 import type { Agent, Client } from "@agentclientprotocol/sdk"
 import { ClientSideConnection, ndJsonStream, PROTOCOL_VERSION } from "@agentclientprotocol/sdk"
-import { type ChildProcess, spawn } from "child_process"
-import { Readable, Writable } from "stream"
 
 const QWEN_PATH = "qwen"
 const GEMINI_PATH = "gemini"
